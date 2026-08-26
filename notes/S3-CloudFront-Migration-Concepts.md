@@ -164,6 +164,41 @@ terraform {
 
 ---
 
-## 十、一句话总结
+## 十、澄清误区:S3+CloudFront 并不冷门,而是前端静态部署的"黄金组合"
+
+**误区**:觉得 S3+CloudFront "部署少"、很少被提到,是个冷门方案。
+
+**纠正**:在前端与静态资源(React、Vue、HTML/CSS、图片视频)的部署中,S3 + CloudFront 非但不冷门,反而是 AWS 生态乃至整个工业界最标准、用得最多的"黄金组合"(大厂与高并发场景的首选,成本极低、抗打能力强)。产生"冷门"的错觉,通常是以下三个原因造成的:
+
+### 1. 绝对不能部署"后端服务"(它只有存储,没有算力)
+
+S3 只是纯粹的对象存储(网盘),本身没有任何 CPU/内存去运行 Node.js、Python、Go、Java 等后端常驻代码。
+
+- **能部署什么**:打包好的静态文件(`.html`、`.js`、`.css`、图片)。
+- **不能部署什么**:真正的动态 API、后端微服务、数据库连接。凡是需要服务器计算的,必须交给 EC2/ECS/Lambda,S3+CloudFront 充其量只能作为最前方的静态 CDN。
+
+### 2. 纯手动搭建的"开发者体验(DX)"太繁琐
+
+对独立开发者和小团队,手动从零搭建 S3+CloudFront 的流程很折腾:S3 Bucket 策略、CloudFront OAC(参见本文第三节)、ACM 证书申请、Route 53 域名解析、SPA 单页路由重定向(404 映射,参见本文第四节)、CI/CD 部署时的缓存刷新(Invalidation,参见本文第二节)。
+
+在这个领域,**Vercel、Netlify、Cloudflare Pages** 以及 AWS 自家的 **AWS Amplify** 夺走了大量声量——它们只需绑定 GitHub、点一下鼠标就能全自动搞定一切,把底层 S3+CloudFront 的复杂性全屏蔽掉了。
+
+### 3. 现代前端 SSR(服务端渲染)趋势的冲击
+
+早期前端全是纯静态 SPA(单页面应用),打包完就是一堆静态文件,丢进 S3+CloudFront 完美运行。但现在 **Next.js、Nuxt.js** 等框架大行其道,依赖 **SSR(服务端实时渲染 HTML)** 来优化 SEO 和首屏加载——前端代码在接收请求时也需要跑 Node.js 服务器,单纯的 S3 存不下了,大家转向 Vercel、AWS Lambda 或容器(ECS)部署。
+
+### 场景落地总结
+
+| 场景 | 标准方案 |
+|---|---|
+| 纯静态网站 / React/Vue SPA / CDN 静态资源加速 | **S3 + CloudFront**(大厂与高并发的首选,成本极低、抗打能力强) |
+| Next.js / SSR 动态前端 | Vercel / AWS Amplify / ECS |
+| 后端 API / 动态业务 | API Gateway + Lambda 或 ALB + ECS/EC2 |
+
+## 十一、一句话总结
 
 这次迁移评审的核心方法论是:**任何一条"听起来合理"的技术结论,都要么在 AWS 官方文档里找到原文佐证,要么用只读 CLI 命令在真实账户上实测验证,不凭直觉或惯性接受**——不管这个结论是外部评审提的,还是自己最初的判断。共享资源(ALB/NAT Gateway)的成本归因、CloudFront 错误改写响应的实际缓存行为、CSP Report-Only 到底会不会被日志记录,都是这么一条条查证出来的。
+
+---
+
+参考关联笔记:[ALB-vs-API-Gateway-vs-Bastion-Host.md](ALB-vs-API-Gateway-vs-Bastion-Host.md)(第九节:ACM 证书与免费/付费证书对比;第十节:TLS 卸载原理)

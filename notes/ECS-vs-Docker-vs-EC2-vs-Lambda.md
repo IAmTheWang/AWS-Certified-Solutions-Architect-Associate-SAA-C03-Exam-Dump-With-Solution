@@ -1,0 +1,141 @@
+# ECS / Docker / EC2 / Lambda 关系与选型笔记
+
+## 一、ECS ≠ Docker，这俩不是一回事
+
+- **Docker**：打包和运行容器的技术标准/工具。负责把应用 + 运行环境（Node.js 版本、依赖包等）打包成**镜像（image）**，然后在**一台机器上**跑起来。本地 `docker run` 跟 AWS 完全无关。
+- **ECS**：AWS 提供的"帮你管理一堆 Docker 容器"的调度服务。如果有上百个容器实例分布在多台机器上，不可能手动逐台 SSH 进去敲命令，ECS 解决的就是这个"规模化管理"问题——自动决定容器放在哪台机器、挂了自动重启、新版本发布时滚动替换、配合负载均衡器（ALB）分发流量。
+
+关系：**Docker 负责"打包这一个容器长什么样"，ECS 负责"这一堆容器该怎么调度、放哪、挂了怎么办"**。
+
+## 二、容器编排（Container Orchestration）是什么
+
+类比：餐厅经理（=ECS）管理一批厨师（=容器实例），每个厨师做同一道菜（=同一个 Docker 镜像）。经理要操心：
+
+- 客人多时临时多叫厨师上岗（**自动扩容**）
+- 某个厨师请假，立刻补人顶上（**健康检查 + 自动重启**）
+- 新菜谱发布时逐个替换，不能同时全下线（**滚动更新/蓝绿部署**）
+- 新客人来了，知道该分配到哪个还没坐满的厨师（**负载均衡**）
+
+没有编排工具时这些事全靠手动盯着，容器一多（几十上百个）根本忙不过来。**编排 = 把"容器该跑在哪、什么时候补新的、怎么平滑升级"这些决策自动化。** ECS 是 AWS 版编排工具，业界通用/跨云的编排工具是 Kubernetes（AWS 对应 EKS）。
+
+## 三、选型场景对照
+
+| 场景 | 用什么 |
+|---|---|
+| 纯静态前端 build 产物（HTML/CSS/JS） | S3 + CloudFront（跟 EC2/ECS/Lambda 无关） |
+| 需要持续运行、环境要求特殊（特定 JDK 版本、系统级软件）的后端服务 | EC2 —— 本质是租一台云端虚拟机，可远程 SSH，想装啥装啥 |
+| Docker 化的后端 API，流量有波动，需要自动扩缩容和容错 | ECS（常见用 Fargate 模式，不用自己管服务器） |
+| 某个事件发生时跑一小段代码，跑完就销毁（偶发、短任务） | Lambda —— 例如 S3 收到新文件 → 触发 Lambda 做 OCR → 存进 DynamoDB，没人上传时零花费 |
+
+### 关于 mykarte / HCP+ 场景
+- 当前 mykarte 的 S3 + CloudFront 部署（纯前端静态资源）本来就不需要 EC2/ECS/Lambda 中任何一个。
+- 如果以后 Welby 要给 HCP+ 做新的 Node.js 后端 API 服务（非静态前端），大概率会走 **ECS（Fargate）**——比自建 EC2 省心，也比 Lambda 更适合"持续对外提供 API"这种场景（Lambda 更适合图片 OCR 这类偶发性、短任务型需求）。
+
+## 四、EC2 与 ECS / Fargate 到底是什么关系（澄清常见误解）
+
+### 0. SSH / RDP 分别是什么
+
+两者都是"**远程登录一台电脑、操作它的命令行/桌面**"的协议，只是针对不同操作系统：
+
+- **SSH（Secure Shell）**：远程登录 **Linux/Unix 命令行**。加密传输（区别于早期明文的 Telnet），通常用密钥对（公钥/私钥）或密码认证。例如 `ssh ec2-user@1.2.3.4`，远程操作那台 Linux 服务器的终端，跟本地敲命令一样。默认端口 22。
+- **RDP（Remote Desktop Protocol）**：微软发明，用于远程登录 **Windows 图形化桌面**。传输的不是命令行，而是整个桌面画面 + 鼠标键盘操作，像本地开机一样。默认端口 3389。
+
+共同点：都是"**远程控制一台完整操作系统**"的手段——前提是对方是有完整 OS 的机器（比如 EC2 虚拟机）。这也是为什么 EC2 能用 SSH/RDP 登录，而 ECS/Fargate 里的容器不适用这套逻辑（容器调试用的是 `ECS Exec`，不是 SSH）。
+
+### 1. 为什么 EC2 要用 SSH
+
+SSH 跟 AWS 本身没关系，它是**远程登录 Linux 系统命令行的通用协议**——不管是自建服务器、机房物理机，还是 EC2 虚拟机，只要跑的是完整 Linux OS，SSH 就是标准远程管理方式（Windows 对应 RDP）。
+
+EC2 本质是"云端的一台完整虚拟机"，AWS 把底层硬件虚拟化好之后甩给你一个空白 OS，装什么软件、开什么端口全是自己的事，所以要登进去操作就得用 SSH。
+
+而 ECS/Fargate 里的容器**不是**一台完整机器，只是隔离的进程环境，正常不需要、也不该登进去手动操作（容器坏了直接换新的，不是登进去修）。要临时调试用的是 **ECS Exec**（`aws ecs execute-command`），效果类似"容器内开个临时 shell"，但不是 SSH，也不需要开 SSH 端口或维护密钥对。
+
+### 2. EC2 管理 ECS？—— 关系是反过来的
+
+**ECS 是"调度大脑"（control plane），决定容器要跑在哪；EC2 只是承载容器运行的"物理载体"之一。**
+
+ECS 有两种底盘模式（launch type）：
+
+| Launch Type | 容器存放在哪 | 能否 SSH 进底层机器 |
+|---|---|---|
+| **EC2 launch type** | 跑在**你自己名下的 EC2 实例**上——自己建、装 ECS Agent、打补丁、管扩缩容组 | 能，本质就是普通 EC2，账单也按 EC2 计费 |
+| **Fargate launch type** | 跑在 **AWS 完全托管、对你不可见的计算资源**上——账户里没有对应 EC2 实例 ID | 不能，AWS 不暴露底层机器，只需声明 vCPU/内存，其余黑盒 |
+
+所以：
+- "ECS 存放在 EC2 上面" —— 只在选 **EC2 launch type** 时成立。
+- "Fargate 也存放在 EC2 上面" —— **不成立**。Fargate 底层用的是 AWS 自研的 Firecracker microVM（跟 EC2 虚拟化技术是近亲，但不是同一套面向客户的资源），完全由 AWS 自己管理/打补丁/调度容量，不出现在你的 EC2 控制台，也不按 EC2 单独计费——付的是 Fargate 按 vCPU/内存/时长的账单。
+
+一句话：**ECS 决定"容器该在哪跑"，EC2（launch type）和 Fargate（launch type）是两种不同的"跑在哪"的答案——前者是你自己管的机器，后者是 AWS 帮你管到看不见摸不着的机器。**
+
+## 五、Lambda 代码存放在哪里？Canary 灰度发布是不是 Lambda 专属？（两个常见误区）
+
+### 误区一：Lambda 的 zip 包存放在 EC2 或 Fargate 上
+
+真相：Lambda 的代码压缩包存放在 **AWS 内部维护的 S3（对象存储）** 里，跟 EC2/Fargate 毫无关系。
+
+- **存储阶段**：点击"上传/部署"后，`.zip` 文件被直接放进 AWS 为 Lambda 专门维护的 S3 Bucket。S3 只是纯粹的网盘，没有计算能力，不占用任何 EC2/Fargate 资源。
+- **运行阶段**：真实流量打过来时，AWS 底层调度系统瞬间从 S3 把 `.zip` 下载下来，丢进一个极轻量的"微型虚拟机"（AWS 自研的 **Firecracker MicroVM**）里解压执行。几分钟没流量，这个虚拟机就被销毁。
+
+一句话：**Lambda 的代码存放和 EC2/Fargate 无关**，跟第四节里 Fargate 底层用 Firecracker microVM 是同一套技术亲缘，但用途不同（Fargate 跑常驻容器，Lambda 跑短时函数）。
+
+### 误区二：想做 Canary（灰度发布）必须用 Lambda
+
+真相：不对。**几乎所有计算服务（EC2、ECS、EKS、API Gateway）都能做 Canary**，Canary（金丝雀发布）只是"按百分比分配流量"的一种策略，不是 Lambda 的专利，区别只在于"切分流量的工具和代价"不同。
+
+| | ECS/Fargate 做 Canary | Lambda 做 Canary |
+|---|---|---|
+| **依靠的机制** | 应用负载均衡器（ALB）在两个 Target Group 间按比例分流量 | Lambda 自带的 **Alias（别名）加权路由** |
+| **具体做法** | 已有 10 个跑 v1 的容器（Target Group 1）；灰度 v2 时必须真实启动新容器（比如 2 个，Target Group 2）；告诉 ALB "10% 流量给 v2，90% 给 v1" | 把 v2 的 zip 包丢进 S3；把 Alias 设为 `90% v1, 10% v2`；不需要 ALB |
+| **资源代价** | 灰度期间是**同时为 12 个容器付钱**（10 老 + 2 新）——靠预先扩容真实资源来实现流量切分 | Lambda 按次计费，v2 代码包放在 S3 里不要钱；来 100 个请求，AWS 自动把 90 个路由到 v1、10 个到 v2，只按这 100 次请求付费，**不需要预先购买任何多余计算资源** |
+
+**SAA 考试重点结论**：
+- 能不能做 Canary？大家都能做。
+- EC2/ECS 怎么做？靠 **ALB（Application Load Balancer）** 或 **Route 53** 把流量按比例导向新旧两批**真实存在**的服务器/容器。
+- Lambda 怎么做？靠 **Lambda Alias Weighted Routing（别名权重路由）**，在底层按比例加载不同的代码包，无需预先起服务器。
+
+Lambda 部署"看起来很神奇"，本质是把 EC2/ECS 里"启停服务器"这个沉重过程，降维打击成了"在 S3 网盘里换个文件读取"的过程。
+
+## 六、真实工业界现状：三种计算资源做 Canary 的市场占比与定位
+
+SAA 考试里三种服务"都能做 Canary"是平等的选项，但现实工业界的使用比重差异很大——可以概括为"旧时代霸主"（EC2，退潮中）、"当打之年"（ECS/Fargate/EKS，绝对主流）、"未来的轻骑兵"（Lambda，增长最快）。
+
+### 1. ECS / Fargate（以及 EKS/Kubernetes）—— 绝对主流（约占 60%-70%）
+
+**定位**：现代微服务架构的基石。
+
+- 现在 80% 的中大型公司都在用容器（Docker）写微服务：容器启动是秒级，不像 EC2 那么笨重，也不像 Lambda 那样有严格限制（最长执行 15 分钟、不能有后台常驻进程）。
+- Canary 现状：容器生态里做 Canary 已非常成熟——配合 AWS ALB，或在 Kubernetes 里用 Istio / ArgoCD 等开源工具切分流量，是行业标准做法。多数公司的核心业务 API、后台系统都跑在 Fargate/K8s 上。
+
+### 2. Lambda —— 增长最快、体验最爽的轻骑兵（约占 20%-30%）
+
+**定位**：事件驱动、BFF 层（前端 API 聚合）、轻量级无服务器架构。
+
+- Lambda 做 Canary 的机制最优雅、最便宜（见第五节的 Alias 权重路由），但不能包治百病：**冷启动（Cold Start）**问题（久未访问时首次请求会慢）、不支持 WebSocket 等长连接，导致很多重型核心业务不敢全量迁入。
+- Canary 现状：如果团队架构本身是 Serverless（重度依赖 API Gateway + Lambda），几乎 100% 会用 Lambda 的 Canary 部署——CodeDeploy 自带模板（如 `Canary10Percent5Minutes`），配置极其简单。
+
+### 3. EC2（传统虚拟机）—— 正在退潮的旧时代（占 10% 甚至更少）
+
+**定位**：遗留系统（Legacy System）、巨型单体应用（Monolith）、重型数据库。
+
+- 现在纯手工在 EC2 上做 Canary 的新项目已非常罕见：启动一台机器需要几分钟，还要跑各种初始化脚本（UserData）；为了 10% 灰度测试去克隆一整台带 OS 和环境配置的机器，代价高、速度慢。
+- 还在用 EC2 的企业通常选择粗暴的**蓝绿部署（Blue/Green）**或直接停机更新，而不是精细的 Canary。
+
+### 现实开发选型总结
+
+- **传统成熟大厂 / 标准微服务架构**（Spring Boot、Go web 框架等）→ 普遍用 **ECS / Fargate / EKS**，通过 Load Balancer 切分流量做 Canary。
+- **极客型创业公司 / 数据清洗、定时任务、轻量级 Web API** → 大量用 **Lambda**，享受"0 成本、秒级切换、无服务器运维"的 Canary 体验。
+- **EC2** 现在多被当作"底层基础设施"（跑数据库、或作为 K8s 节点），基本不会把业务代码直接裸布在 EC2 上做 Canary。
+
+## 七、Canary 是 Blue/Green 的渐进式优化版本（部署策略对比与历史起源）
+
+| 维度 | Blue/Green Deployment（蓝绿部署） | Canary Deployment（金丝雀部署） |
+|---|---|---|
+| **流量切换方式** | **一刀切（100% 全量）**：瞬间从蓝环境（V1）切到绿环境（V2） | **阶梯式（增量灰度）**：从 1% → 10% → 50% → 100% 逐渐放量 |
+| **风险控制** | 一旦 V2 有未知 Bug，100% 用户同时受影响 | 哪怕 V2 崩溃，只有前 1%~10% 的"金丝雀用户"受影响 |
+| **概念起源时间** | **2005–2010 年**：由 Jez Humble、Martin Fowler 等持续交付先驱提出，2010 年标准化 | **2010–2014 年**：源于 20 世纪煤矿工人带金丝雀检测毒气的隐喻；2010 年在《持续交付》一书中被提及，后被 Google/Facebook 普及 |
+
+一句话：Canary 是在 Blue/Green"整体切换"思路基础上，把切换过程拆成可控的小步骤，用更小的爆炸半径换取更高的安全性。第三节中 EC2 走 Blue/Green、ECS/Lambda 走精细 Canary 的现实取舍，正是这张表格的具体体现。
+
+---
+
+参考关联笔记：[ECR-vs-DockerHub-and-Network-Isolation.md](ECR-vs-DockerHub-and-Network-Isolation.md)、[S3-CloudFront-Migration-Concepts.md](S3-CloudFront-Migration-Concepts.md)、[ALB-vs-API-Gateway-vs-Bastion-Host.md](ALB-vs-API-Gateway-vs-Bastion-Host.md)
