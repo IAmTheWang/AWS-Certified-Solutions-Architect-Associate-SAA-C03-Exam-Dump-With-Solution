@@ -136,6 +136,35 @@ SAA 考试里三种服务"都能做 Canary"是平等的选项，但现实工业�
 
 一句话：Canary 是在 Blue/Green"整体切换"思路基础上，把切换过程拆成可控的小步骤，用更小的爆炸半径换取更高的安全性。第三节中 EC2 走 Blue/Green、ECS/Lambda 走精细 Canary 的现实取舍，正是这张表格的具体体现。
 
+## 八、滚动部署（Rolling）也经常被拿来跟 Canary 比，两者核心区别是什么
+
+除了 Blue/Green，还有第三种部署策略叫**滚动部署（Rolling Deployment）**——它才是 Kubernetes Deployment、ECS Service（不特意配置 CodeDeploy 蓝绿的话）的**默认**部署方式，实际用量比 Blue/Green、Canary 都大，只是因为是"什么都不配置时的默认行为"，没什么话题性，很少被专门拿出来讲。
+
+### 用比喻分清楚三者
+
+| 部署方式 | 比喻 | 核心逻辑 | 容量变化方式 |
+|---|---|---|---|
+| **滚动部署（Rolling）** | 换汽车轮胎——一个一个拆旧换新，按固定顺序换完为止 | 纯机制性的"分批替换"，保证服务全程不停机 | **1 换 1**：旧的下线一个，新的顶上一个，总容量基本不变 |
+| **金丝雀发布（Canary）** | 矿工带金丝雀下矿井——先放一小部分真实流量去新版本探路，金丝雀没事再放更多人下去 | 故意用一小撮真实流量做风险探测，根据观察到的指标决定要不要扩大 | **先加后减**：先在旧的之外另起一小批新的，旧的先不动，确认没事了旧的才逐步下线 |
+| **蓝绿部署（Blue/Green）** | 旧楼完全不动，另外盖一栋一模一样的新楼，盖好了整体切过去 | 新旧两套完整环境同时存在，切换通常一次性、全量 | 短暂地**双倍**：切换窗口期两套环境同时存在，验证通过后旧的立刻整体下线 |
+
+### 核心区别不是"能不能反悔"，而是"要不要主动用真实流量做风险探测"
+
+容易望文生义地觉得 Rolling 跟 Canary 的区别就是"能不能反悔"——但现在很多滚动部署的实现（ECS 原生 rolling update、Kubernetes Deployment）本身也带健康检查，某一批换上去探活失败一样能暂停甚至自动回滚，并不是完全没有反悔机会。
+
+更准确的区别在于**设计初衷**：
+
+- 滚动部署的核心目的是"不停机地把所有实例换完"——是个**机制问题**，中途的健康检查是后加的保险，不是设计初衷。
+- Canary 的核心目的是"故意只放一小撮真实流量去试探风险，根据观察结果决定敢不敢继续放量"——是个**风险验证策略**，从第一天设计起就是围绕"观察 → 决策"这个环节转的。
+
+### 蓝绿的"双倍成本"是临时的，不是永久的
+
+蓝绿部署"双倍服务器开销"这个说法方向是对的，但要注意**这个双倍通常只是切换窗口期间的临时成本**：以 AWS CodeDeploy 的 ECS 蓝绿部署为例，部署时 Green（新）环境起来了，Blue（旧）环境还在，两边短暂同时存在供验证；验证通过（或设定的等待时间到了）之后，旧的 Blue 任务集就会被终止——之后就恢复回单份成本了，不是从头到尾永久花两份钱。
+
+Canary 因为是"先加后减"，全程总容量大致维持在一份左右（不是从头到尾维持两套完整环境），所以整体上比蓝绿更省钱，这个大方向是对的。
+
+三者不互斥，可以叠着用：常见做法是先 canary 放 5% 流量观察一阵子确认没问题，剩下 95% 再用滚动的方式一批一批换完。
+
 ---
 
-参考关联笔记：[ECR-vs-DockerHub-and-Network-Isolation.md](ECR-vs-DockerHub-and-Network-Isolation.md)、[S3-CloudFront-Migration-Concepts.md](S3-CloudFront-Migration-Concepts.md)、[ALB-vs-API-Gateway-vs-Bastion-Host.md](ALB-vs-API-Gateway-vs-Bastion-Host.md)
+参考关联笔记：[ECR-vs-DockerHub-and-Network-Isolation.md](ECR-vs-DockerHub-and-Network-Isolation.md)、[S3-CloudFront-Migration-Concepts.md](S3-CloudFront-Migration-Concepts.md)、[ALB-vs-API-Gateway-vs-Bastion-Host.md](ALB-vs-API-Gateway-vs-Bastion-Host.md)、[CloudFormation-ChangeSet-and-Stack-Concepts.md](CloudFormation-ChangeSet-and-Stack-Concepts.md)

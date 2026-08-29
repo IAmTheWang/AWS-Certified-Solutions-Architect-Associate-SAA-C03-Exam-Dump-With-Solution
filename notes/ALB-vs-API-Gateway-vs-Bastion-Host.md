@@ -229,6 +229,64 @@ HTTPS 的 TLS 握手与加解密是高度消耗 CPU 的"计算密集型"数学�
 
 > 注：在金融、医疗等极高安全合规要求（**零信任架构 Zero-Trust**）的场景下，内网 ALB 到后端也会强制重新加密，但这属于牺牲部分性能换取绝对合规的特例。
 
+## 十一、对外 API vs 内部 API：为什么一个暴露公网、一个不暴露？
+
+以实际排查过的 `welby-fhir-server-aggregator-platform` 项目 CloudFormation 模板为例，项目里同时有一个对外的 `APIECSLoadBalancer` 和一个只供内部调用的 `InternalAPIECSLoadBalancer`，两者的网络暴露方式完全不同。
+
+### 光看 Security Group 会被误导
+
+`InternalAPIALBSecurityGroup` 的 ingress 规则写的是：
+
+```yaml
+SecurityGroupIngress:
+  - IpProtocol: tcp
+    FromPort: 80
+    ToPort: 80
+    CidrIp: 0.0.0.0/0
+```
+
+单看这条规则，`CidrIp: 0.0.0.0/0` 意味着"理论上谁都能连"，很容易误以为这个内部 API 其实是暴露在公网的。
+
+### 真正起作用的是网络层隔离，不是安全组
+
+```yaml
+InternalAPIECSLoadBalancer:
+  Properties:
+    Scheme: internal          # 内网负载均衡器，不分配公网 IP
+    Subnets:
+      - welby-pri-subnet-a    # 部署在私有子网
+      - welby-pri-subnet-c
+      - welby-pri-subnet-d
+```
+
+对比公网 API：
+
+```yaml
+APIECSLoadBalancer:
+  Properties:
+    Scheme: internet-facing   # 公网负载均衡器
+```
+
+`Scheme: internal` + 部署在没有 Internet Gateway 路由的私有子网，意味着这个 ALB **物理上没有公网 IP、公网压根连不进来**——跟安全组那条 `0.0.0.0/0` 规则写得多宽松完全无关。安全组只是"理论上谁能连"，子网位置和 ALB Scheme 才是"物理上谁能连到"，两者是不同层面的门。
+
+### 这是经典的"纵深防御"（Defense in Depth）
+
+即使应用层鉴权出了 bug，或者安全组配置不小心写宽了，网络层（子网 + ALB Scheme）这道闸门依然能把内部服务锁死在内网里连不到——这就是"纵深防御"：不指望单独一层做到万无一失，多层同时兜底。
+
+这种"公网 API / 内部服务间调用 API 分离"是微服务架构里非常标准的做法（BFF 层对外，内部服务间调用走内网），在医疗等强监管行业尤其常见——审计时会专门检查"哪些计算资源直接暴露在公网"。
+
+补充一个佐证：同项目里公网 API（prd）的 CPU/Memory 配置是 `8192/16384`，内部 API（prd）只有 `2048/4096`，相差 4 倍——间接说明两者流量画像完全不同：一个扛真实终端用户流量，一个只服务少量内部调用方。
+
+> 诚实说明：以上"为什么这么设计"的推理，是基于 AWS Well-Architected 安全支柱最佳实践 + 实际翻到的 CFn 证据做的推断，项目自己的设计文档（`_deploy/designDocs/*.md`、`_deploy/README.md`）里翻遍了也没有写明当初团队做这个决策的原始理由。
+
+## 十二、为什么是 80 端口这么"特殊"？
+
+80 端口本身没有什么 AWS 专属的机制，纯粹是 **IANA（互联网号码分配机构）** 定的 HTTP 协议"知名端口"（Well-known port，0-1023 范围内的号码历史上都被分配好了固定用途）这个惯例。
+
+- 浏览器/客户端的默认行为：URL 写 `http://xxx` 不指定端口号，自动补 `:80`；写 `https://xxx` 不指定端口号，自动补 `:443`。
+- 上面第十一节看到的两个 ALB Listener，无论是对外的还是对内的，配的都是 `Port: 80, Protocol: HTTP`，没有看到 443 监听器——说明 TLS 加密大概率是在更外层做的（比如 CloudFront 终结 TLS 后，往回源方向走明文 HTTP），这跟第十节讲的 TLS Termination 是同一套逻辑：内网这一层没必要再重复加密一遍。
+- 这一点在这次实际排查里**还没有完全验证**：没有具体确认公网 ALB 是否在别处（比如 CloudFront）真的挂了独立的 443/HTTPS 监听，留作后续待确认项。
+
 ---
 
-参考关联笔记：[ECS-vs-Docker-vs-EC2-vs-Lambda.md](ECS-vs-Docker-vs-EC2-vs-Lambda.md)（第五、六、七节：Lambda 存储机制、Canary 工业界占比、Canary vs Blue/Green 历史起源）、[S3-CloudFront-Migration-Concepts.md](S3-CloudFront-Migration-Concepts.md)（第三节：viewer TLS 证书区域要求；第十节：S3+CloudFront 是否冷门的澄清）
+参考关联笔记：[ECS-vs-Docker-vs-EC2-vs-Lambda.md](ECS-vs-Docker-vs-EC2-vs-Lambda.md)（第五、六、七节：Lambda 存储机制、Canary 工业界占比、Canary vs Blue/Green 历史起源）、[S3-CloudFront-Migration-Concepts.md](S3-CloudFront-Migration-Concepts.md)（第三节：viewer TLS 证书区域要求；第十节：S3+CloudFront 是否冷门的澄清）、[CloudFormation-ChangeSet-and-Deployment-Strategies.md](CloudFormation-ChangeSet-and-Deployment-Strategies.md)（第五节：蓝绿 vs Canary vs 滚动部署的核心区别）
