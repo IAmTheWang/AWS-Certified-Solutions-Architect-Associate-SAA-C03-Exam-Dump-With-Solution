@@ -1058,7 +1058,33 @@ An application allows users at a company's headquarters to access product data. 
 ### Question #96
 
 An Amazon EC2 administrator created the following policy associated with an IAM group containing several users: What is the effect of this policy?
-
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ec2:TerminateInstances",
+            "Resource": "*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "10.100.100.0/24"
+                }
+            }
+        },
+        {
+            "Effect": "Deny",
+            "Action": "ec2:*",
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "ec2:Region": "us-east-1"
+                }
+            }
+        }
+    ]
+}
+```
 - **A.** Users can terminate an EC2 instance in any AWS Region except us-east-1.
 - **B.** Users can terminate an EC2 instance with the IP address 10.100.100.1 in the us-east-1 Region.
 - **C.** Users can terminate an EC2 instance in the us-east-1 Region when the user's source IP is 10.100.100.254.
