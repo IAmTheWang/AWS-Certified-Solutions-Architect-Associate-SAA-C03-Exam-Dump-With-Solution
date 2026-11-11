@@ -1,0 +1,5 @@
+file '/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/build/out/scene1.mp4'
+file '/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/build/out/scene2.mp4'
+file '/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/build/out/scene3.mp4'
+file '/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/build/out/scene4.mp4'
+file '/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/build/out/scene5.mp4'

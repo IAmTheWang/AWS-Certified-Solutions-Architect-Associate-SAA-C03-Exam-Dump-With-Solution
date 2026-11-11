@@ -1,0 +1,3278 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 6
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": false,
+    "errorCount": 29,
+    "warningCount": 2,
+    "infoCount": 11,
+    "findings": [
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 14.864,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 315,
+          "top": 629,
+          "right": 445,
+          "bottom": 800,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(12) > div:nth-of-type(1)",
+        "text": "🥬",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 315,
+          "y": 629,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 14.864,
+        "lastSeen": 25.674,
+        "occurrences": 13,
+        "heldMs": 2701.999999999998,
+        "times": [
+          14.864,
+          15.364,
+          16.215,
+          16.715,
+          17.566,
+          18.917,
+          20.269,
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 14.864,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 505,
+          "top": 629,
+          "right": 635,
+          "bottom": 800,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(13) > div:nth-of-type(1)",
+        "text": "🧅",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 505,
+          "y": 629,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 14.864,
+        "lastSeen": 25.674,
+        "occurrences": 13,
+        "heldMs": 2701.999999999998,
+        "times": [
+          14.864,
+          15.364,
+          16.215,
+          16.715,
+          17.566,
+          18.917,
+          20.269,
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 15.364,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 695,
+          "top": 629,
+          "right": 825,
+          "bottom": 800,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(14) > div:nth-of-type(1)",
+        "text": "🥩",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 695,
+          "y": 629,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 15.364,
+        "lastSeen": 25.674,
+        "occurrences": 12,
+        "heldMs": 2201.999999999998,
+        "times": [
+          15.364,
+          16.215,
+          16.715,
+          17.566,
+          18.917,
+          20.269,
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 16.215,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1075,
+          "top": 629,
+          "right": 1205,
+          "bottom": 800,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(15) > div:nth-of-type(1)",
+        "text": "🥣",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 1075,
+          "y": 629,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 16.215,
+        "lastSeen": 25.674,
+        "occurrences": 11,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          16.215,
+          16.715,
+          17.566,
+          18.917,
+          20.269,
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 16.215,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1265,
+          "top": 629,
+          "right": 1395,
+          "bottom": 800,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(16) > div:nth-of-type(1)",
+        "text": "🔪",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 1265,
+          "y": 629,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 16.215,
+        "lastSeen": 25.674,
+        "occurrences": 11,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          16.215,
+          16.715,
+          17.566,
+          18.917,
+          20.269,
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 16.215,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(9) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1455,
+          "top": 629,
+          "right": 1585,
+          "bottom": 800,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(17) > div:nth-of-type(1)",
+        "text": "📦",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 1455,
+          "y": 629,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 16.215,
+        "lastSeen": 25.674,
+        "occurrences": 11,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          16.215,
+          16.715,
+          17.566,
+          18.917,
+          20.269,
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 22.12,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(30) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 407.28,
+          "top": 276.63,
+          "right": 552.72,
+          "bottom": 445.37,
+          "width": 145.44,
+          "height": 168.74
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(36) > div:nth-of-type(1)",
+        "text": "🍂",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 407.28,
+          "y": 276.63,
+          "width": 145.44,
+          "height": 168.74
+        },
+        "firstSeen": 21.62,
+        "lastSeen": 25.674,
+        "occurrences": 6,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          21.62,
+          22.12,
+          22.971,
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 24.322,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(31) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 631.88,
+          "top": 273.92,
+          "right": 786.18,
+          "bottom": 447.77,
+          "width": 154.3,
+          "height": 173.85
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "text": "🧅",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 631.88,
+          "y": 273.92,
+          "width": 154.3,
+          "height": 173.85
+        },
+        "firstSeen": 24.322,
+        "lastSeen": 25.674,
+        "occurrences": 3,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 24.322,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(32) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 874.55,
+          "top": 281.89,
+          "right": 1003.52,
+          "bottom": 439.8,
+          "width": 128.97,
+          "height": 157.91
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "text": "🍽️",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 874.55,
+          "y": 281.89,
+          "width": 128.97,
+          "height": 157.91
+        },
+        "firstSeen": 24.322,
+        "lastSeen": 25.674,
+        "occurrences": 3,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 24.322,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(33) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1107.96,
+          "top": 284.33,
+          "right": 1230.1,
+          "bottom": 437.36,
+          "width": 122.14,
+          "height": 153.03
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "text": "🍂",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 1107.96,
+          "y": 284.33,
+          "width": 122.14,
+          "height": 153.03
+        },
+        "firstSeen": 24.322,
+        "lastSeen": 25.674,
+        "occurrences": 3,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 24.322,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(37) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 334.03,
+          "top": 174.84,
+          "right": 524.03,
+          "bottom": 423.84,
+          "width": 190,
+          "height": 249
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "text": "💥",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 334.03,
+          "y": 174.84,
+          "width": 190,
+          "height": 249
+        },
+        "firstSeen": 24.322,
+        "lastSeen": 25.674,
+        "occurrences": 3,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 24.322,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(38) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1394.03,
+          "top": 174.84,
+          "right": 1584.03,
+          "bottom": 423.84,
+          "width": 190,
+          "height": 249
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "text": "💥",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 1394.03,
+          "y": 174.84,
+          "width": 190,
+          "height": 249
+        },
+        "firstSeen": 24.322,
+        "lastSeen": 25.674,
+        "occurrences": 3,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 24.322,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 397.81,
+          "top": 179.57,
+          "right": 1519.81,
+          "bottom": 415.14,
+          "width": 1122,
+          "height": 235.57
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "text": "OOM 内存溢出 · 直接卡死",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 397.81,
+          "y": 179.57,
+          "width": 1122,
+          "height": 235.57
+        },
+        "firstSeen": 24.322,
+        "lastSeen": 25.674,
+        "occurrences": 3,
+        "heldMs": 1352.0000000000002,
+        "times": [
+          24.322,
+          24.822,
+          25.674
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 40.312,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1435,
+          "top": 476,
+          "right": 1685,
+          "bottom": 804,
+          "width": 250,
+          "height": 328
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(6) > div:nth-of-type(1)",
+        "text": "👵",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1435,
+          "y": 476,
+          "width": 250,
+          "height": 328
+        },
+        "firstSeen": 39.186,
+        "lastSeen": 105.397,
+        "occurrences": 59,
+        "heldMs": 5405.000000000001,
+        "times": [
+          39.186,
+          39.686,
+          40.312,
+          40.537,
+          41.888,
+          43.24,
+          43.74,
+          44.591,
+          45.091,
+          45.942,
+          46.442,
+          47.293,
+          47.793,
+          48.645,
+          49.996,
+          51.347,
+          52.698,
+          54.05,
+          55.401,
+          56.752,
+          58.103,
+          59.455,
+          60.806,
+          62.157,
+          63.508,
+          64.86,
+          66.211,
+          67.187,
+          67.562,
+          68.913,
+          70.264,
+          71.616,
+          72.967,
+          74.318,
+          74.818,
+          75.669,
+          77.021,
+          78.372,
+          79.723,
+          81.074,
+          82.426,
+          83.777,
+          85.128,
+          86.479,
+          87.831,
+          89.182,
+          90.533,
+          91.884,
+          93.236,
+          94.061,
+          94.587,
+          95.938,
+          97.289,
+          98.641,
+          99.992,
+          101.343,
+          102.694,
+          104.045,
+          105.397
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 43.24,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 153.81,
+          "top": 446.85,
+          "right": 446.19,
+          "bottom": 817.61,
+          "width": 292.38,
+          "height": 370.76
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1)",
+        "text": "🧑‍🍳",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 153.81,
+          "y": 446.85,
+          "width": 292.38,
+          "height": 370.76
+        },
+        "firstSeen": 43.24,
+        "lastSeen": 99.992,
+        "occurrences": 8,
+        "heldMs": 500,
+        "times": [
+          43.24,
+          44.591,
+          45.942,
+          46.442,
+          95.938,
+          97.289,
+          98.641,
+          99.992
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 43.24,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(12) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 813.56,
+          "top": 634.78,
+          "right": 985.57,
+          "bottom": 794.72,
+          "width": 172.01,
+          "height": 159.94
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(13) > div:nth-of-type(1)",
+        "text": "🍂",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 813.56,
+          "y": 634.78,
+          "width": 172.01,
+          "height": 159.94
+        },
+        "firstSeen": 43.24,
+        "lastSeen": 54.05,
+        "occurrences": 13,
+        "heldMs": 5405.000000000001,
+        "times": [
+          43.24,
+          43.74,
+          44.591,
+          45.091,
+          45.942,
+          46.442,
+          47.293,
+          47.793,
+          48.645,
+          49.996,
+          51.347,
+          52.698,
+          54.05
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 45.942,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(14) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1067.24,
+          "top": 631.74,
+          "right": 1213.1,
+          "bottom": 797.33,
+          "width": 145.86,
+          "height": 165.59
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(15) > div:nth-of-type(1)",
+        "text": "🍂",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1067.24,
+          "y": 631.74,
+          "width": 145.86,
+          "height": 165.59
+        },
+        "firstSeen": 45.942,
+        "lastSeen": 55.401,
+        "occurrences": 10,
+        "heldMs": 2703.0000000000027,
+        "times": [
+          45.942,
+          46.442,
+          47.293,
+          47.793,
+          48.645,
+          49.996,
+          51.347,
+          52.698,
+          54.05,
+          55.401
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 47.293,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(6) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1370,
+          "top": 608,
+          "right": 1510,
+          "bottom": 792,
+          "width": 140,
+          "height": 184
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(16) > div:nth-of-type(1)",
+        "text": "🧹",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1370,
+          "y": 608,
+          "width": 140,
+          "height": 184
+        },
+        "firstSeen": 47.293,
+        "lastSeen": 105.397,
+        "occurrences": 17,
+        "heldMs": 1352.0000000000039,
+        "times": [
+          47.293,
+          47.793,
+          48.645,
+          49.996,
+          51.347,
+          52.698,
+          54.05,
+          55.401,
+          94.587,
+          95.938,
+          97.289,
+          98.641,
+          99.992,
+          101.343,
+          102.694,
+          104.045,
+          105.397
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 47.293,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(15) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1174.43,
+          "top": 634.78,
+          "right": 1346.44,
+          "bottom": 794.72,
+          "width": 172.01,
+          "height": 159.94
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(16) > div:nth-of-type(1)",
+        "text": "🍂",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1174.43,
+          "y": 634.78,
+          "width": 172.01,
+          "height": 159.94
+        },
+        "firstSeen": 47.293,
+        "lastSeen": 55.401,
+        "occurrences": 8,
+        "heldMs": 1352.0000000000039,
+        "times": [
+          47.293,
+          47.793,
+          48.645,
+          49.996,
+          51.347,
+          52.698,
+          54.05,
+          55.401
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 74.318,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1433.14,
+          "top": 425,
+          "right": 1686.86,
+          "bottom": 483,
+          "width": 253.72,
+          "height": 58
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(26) > div:nth-of-type(1) > div:nth-of-type(13) > div:nth-of-type(1)",
+        "text": "GC · 保洁阿姨",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1433.14,
+          "y": 425,
+          "width": 253.72,
+          "height": 58
+        },
+        "firstSeen": 74.318,
+        "lastSeen": 105.397,
+        "occurrences": 10,
+        "heldMs": 1350.999999999999,
+        "times": [
+          74.318,
+          74.818,
+          75.669,
+          77.021,
+          85.128,
+          86.479,
+          87.831,
+          102.694,
+          104.045,
+          105.397
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 109.45,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(6) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1185,
+          "top": 489,
+          "right": 1415,
+          "bottom": 791,
+          "width": 230,
+          "height": 302
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "text": "👵",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 1185,
+          "y": 489,
+          "width": 230,
+          "height": 302
+        },
+        "firstSeen": 109.45,
+        "lastSeen": 111.302,
+        "occurrences": 4,
+        "heldMs": 1852.0000000000039,
+        "times": [
+          109.45,
+          109.95,
+          110.802,
+          111.302
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 110.802,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1115.68,
+          "top": 614,
+          "right": 1245.68,
+          "bottom": 785,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1)",
+        "text": "🧹",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 1115.68,
+          "y": 614,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 110.802,
+        "lastSeen": 111.302,
+        "occurrences": 2,
+        "heldMs": 500,
+        "times": [
+          110.802,
+          111.302
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 140.529,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(29) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 800,
+          "top": 485,
+          "right": 880,
+          "bottom": 543,
+          "width": 80,
+          "height": 58
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(33) > div:nth-of-type(1)",
+        "text": "二厨",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 800,
+          "y": 485,
+          "width": 80,
+          "height": 58
+        },
+        "firstSeen": 140.529,
+        "lastSeen": 141.88,
+        "occurrences": 3,
+        "heldMs": 1350.999999999999,
+        "times": [
+          140.529,
+          141.029,
+          141.88
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 147.811,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 200,
+          "top": 472.92,
+          "right": 460,
+          "bottom": 813.92,
+          "width": 260,
+          "height": 341
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(27) > div:nth-of-type(1)",
+        "text": "🦀",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 200,
+          "y": 472.92,
+          "width": 260,
+          "height": 341
+        },
+        "firstSeen": 132.422,
+        "lastSeen": 151.339,
+        "occurrences": 20,
+        "heldMs": 1352.0000000000039,
+        "times": [
+          132.422,
+          132.922,
+          133.773,
+          135.124,
+          135.624,
+          136.475,
+          137.827,
+          139.178,
+          140.529,
+          141.029,
+          141.88,
+          143.231,
+          143.731,
+          144.583,
+          145.934,
+          147.285,
+          147.811,
+          148.636,
+          149.988,
+          151.339
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 147.811,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(28) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 735,
+          "top": 502,
+          "right": 945,
+          "bottom": 778,
+          "width": 210,
+          "height": 276
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(29) > div:nth-of-type(1)",
+        "text": "🧑‍🍳",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 735,
+          "y": 502,
+          "width": 210,
+          "height": 276
+        },
+        "firstSeen": 135.124,
+        "lastSeen": 151.339,
+        "occurrences": 17,
+        "heldMs": 1352.0000000000039,
+        "times": [
+          135.124,
+          135.624,
+          136.475,
+          137.827,
+          139.178,
+          140.529,
+          141.029,
+          141.88,
+          143.231,
+          143.731,
+          144.583,
+          145.934,
+          147.285,
+          147.811,
+          148.636,
+          149.988,
+          151.339
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 147.811,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(34) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1345,
+          "top": 643,
+          "right": 1455,
+          "bottom": 787,
+          "width": 110,
+          "height": 144
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(35) > div:nth-of-type(1)",
+        "text": "🥗",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 1345,
+          "y": 643,
+          "width": 110,
+          "height": 144
+        },
+        "firstSeen": 143.231,
+        "lastSeen": 151.339,
+        "occurrences": 9,
+        "heldMs": 1352.0000000000039,
+        "times": [
+          143.231,
+          143.731,
+          144.583,
+          145.934,
+          147.285,
+          147.811,
+          148.636,
+          149.988,
+          151.339
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 186.471,
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(11) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1200.2,
+          "top": 354.45,
+          "right": 1558.92,
+          "bottom": 685.08,
+          "width": 358.72,
+          "height": 330.63
+        },
+        "containerSelector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(11) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1)",
+        "text": "⚙️",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1200.2,
+          "y": 354.45,
+          "width": 358.72,
+          "height": 330.63
+        },
+        "firstSeen": 186.471,
+        "lastSeen": 199.984,
+        "occurrences": 12,
+        "heldMs": 1350.999999999999,
+        "times": [
+          186.471,
+          186.971,
+          187.822,
+          189.174,
+          190.525,
+          191.876,
+          193.227,
+          194.579,
+          195.93,
+          197.281,
+          198.632,
+          199.984
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 202.686,
+        "selector": "#s5-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(5) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1206.6,
+          "top": 430.4,
+          "right": 1513.4,
+          "bottom": 832.78,
+          "width": 306.8,
+          "height": 402.38
+        },
+        "containerSelector": "#s5-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(6) > div:nth-of-type(1)",
+        "text": "👵",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s5.html",
+        "bbox": {
+          "x": 1206.6,
+          "y": 430.4,
+          "width": 306.8,
+          "height": 402.38
+        },
+        "firstSeen": 202.686,
+        "lastSeen": 208.091,
+        "occurrences": 8,
+        "heldMs": 4054.000000000002,
+        "times": [
+          202.686,
+          203.186,
+          204.037,
+          204.537,
+          205.389,
+          205.889,
+          206.74,
+          208.091
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 203.186,
+        "selector": "#s5-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 420,
+          "top": 453.46,
+          "right": 700,
+          "bottom": 821.46,
+          "width": 280,
+          "height": 368
+        },
+        "containerSelector": "#s5-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1)",
+        "text": "🧑‍🍳",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s5.html",
+        "bbox": {
+          "x": 420,
+          "y": 453.46,
+          "width": 280,
+          "height": 368
+        },
+        "firstSeen": 203.186,
+        "lastSeen": 208.091,
+        "occurrences": 6,
+        "heldMs": 1350.999999999999,
+        "times": [
+          203.186,
+          204.037,
+          205.389,
+          205.889,
+          206.74,
+          208.091
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "warning",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(6)",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 2085,
+          "top": 525,
+          "right": 2315,
+          "bottom": 755,
+          "width": 230,
+          "height": 230
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1)",
+        "text": "👵",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 2085,
+          "y": 525,
+          "width": 230,
+          "height": 230
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 147.811,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          120.936,
+          147.811
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "warning",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(7)",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 2135,
+          "top": 635,
+          "right": 2265,
+          "bottom": 765,
+          "width": 130,
+          "height": 130
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1)",
+        "text": "🧹",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 2135,
+          "y": 635,
+          "width": 130,
+          "height": 130
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 147.811,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          120.936,
+          147.811
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 21.62,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(19) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 402.03,
+          "top": 509.64,
+          "right": 557.97,
+          "bottom": 684.36,
+          "width": 155.94,
+          "height": 174.72
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(35) > div:nth-of-type(1)",
+        "text": "🍽️",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 402.03,
+          "y": 509.64,
+          "width": 155.94,
+          "height": 174.72
+        },
+        "firstSeen": 21.62,
+        "lastSeen": 21.62,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          21.62
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 21.62,
+        "selector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(25) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 304.56,
+          "top": 393.02,
+          "right": 455.44,
+          "bottom": 564.98,
+          "width": 150.88,
+          "height": 171.96
+        },
+        "containerSelector": "#s1-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(35) > div:nth-of-type(1)",
+        "text": "🥫",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s1.html",
+        "bbox": {
+          "x": 304.56,
+          "y": 393.02,
+          "width": 150.88,
+          "height": 171.96
+        },
+        "firstSeen": 21.62,
+        "lastSeen": 21.62,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          21.62
+        ]
+      },
+      {
+        "code": "text_occluded",
+        "severity": "info",
+        "time": 67.187,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(8) > div:nth-of-type(1)",
+        "message": "Text is hidden beneath an opaque element.",
+        "rect": {
+          "left": 1433.14,
+          "top": 425,
+          "right": 1686.86,
+          "bottom": 483,
+          "width": 253.72,
+          "height": 58
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(26) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)",
+        "text": "GC · 保洁阿姨",
+        "fixHint": "Give the text its own zone, raise its stacking order above the covering element, or mark intentional layering with data-layout-allow-occlusion.",
+        "coveredFraction": 1,
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1433.14,
+          "y": 425,
+          "width": 253.72,
+          "height": 58
+        },
+        "firstSeen": 67.187,
+        "lastSeen": 94.061,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          67.187,
+          94.061
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 67.187,
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 155.95,
+          "top": 503.85,
+          "right": 444.05,
+          "bottom": 791.95,
+          "width": 288.1,
+          "height": 288.1
+        },
+        "containerSelector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 165,
+          "top": 505,
+          "right": 435,
+          "bottom": 775,
+          "width": 270,
+          "height": 270
+        },
+        "overflow": {
+          "left": 9.05,
+          "right": 9.05
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 155.95,
+          "y": 503.85,
+          "width": 288.1,
+          "height": 288.1
+        },
+        "firstSeen": 67.187,
+        "lastSeen": 94.061,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          67.187,
+          94.061
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(6) > div:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 2085,
+          "top": 489,
+          "right": 2315,
+          "bottom": 791,
+          "width": 230,
+          "height": 302
+        },
+        "containerSelector": "#root",
+        "text": "👵",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 395
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 2085,
+          "y": 489,
+          "width": 230,
+          "height": 302
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 147.811,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          120.936,
+          147.811
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 2135,
+          "top": 614,
+          "right": 2265,
+          "bottom": 785,
+          "width": 130,
+          "height": 171
+        },
+        "containerSelector": "#root",
+        "text": "🧹",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 345
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 2135,
+          "y": 614,
+          "width": 130,
+          "height": 171
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 147.811,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          120.936,
+          147.811
+        ]
+      },
+      {
+        "code": "canvas_overflow",
+        "severity": "info",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(24) > div:nth-of-type(1)",
+        "message": "Text extends outside the composition canvas.",
+        "rect": {
+          "left": 2080,
+          "top": 482,
+          "right": 2320,
+          "bottom": 797,
+          "width": 240,
+          "height": 315
+        },
+        "containerSelector": "#root",
+        "text": "👹",
+        "fixHint": "Move the text inward, reduce its size, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 400
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 2080,
+          "y": 482,
+          "width": 240,
+          "height": 315
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 120.936,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          120.936
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 796.5,
+          "top": 884.5,
+          "right": 1123.5,
+          "bottom": 963.5,
+          "width": 327,
+          "height": 79
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(18) > div:nth-of-type(1)",
+        "text": "工作台 = 内存",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 796.5,
+          "y": 884.5,
+          "width": 327,
+          "height": 79
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 120.936,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          120.936
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 120.936,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(24)",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 2080,
+          "top": 520,
+          "right": 2320,
+          "bottom": 760,
+          "width": 240,
+          "height": 240
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1)",
+        "text": "👹",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 2080,
+          "y": 520,
+          "width": 240,
+          "height": 240
+        },
+        "firstSeen": 120.936,
+        "lastSeen": 120.936,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          120.936
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 147.811,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(24) > div:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 1595.18,
+          "top": 522.01,
+          "right": 1844.82,
+          "bottom": 771.66,
+          "width": 249.65,
+          "height": 249.65
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(24)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 1600,
+          "top": 520,
+          "right": 1840,
+          "bottom": 760,
+          "width": 240,
+          "height": 240
+        },
+        "overflow": {
+          "left": 4.82,
+          "right": 4.82
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 1595.18,
+          "y": 522.01,
+          "width": 249.65,
+          "height": 249.65
+        },
+        "firstSeen": 147.811,
+        "lastSeen": 147.811,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          147.811
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 212.145,
+        "selector": "#s5-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 1615,
+          "top": 158,
+          "right": 1785,
+          "bottom": 381,
+          "width": 170,
+          "height": 223
+        },
+        "containerSelector": "#s5-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1)",
+        "text": "☁️",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s5.html",
+        "bbox": {
+          "x": 1615,
+          "y": 158,
+          "width": 170,
+          "height": 223
+        },
+        "firstSeen": 212.145,
+        "lastSeen": 212.145,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          212.145
+        ]
+      }
+    ],
+    "duration": 241.872,
+    "samples": [
+      13.437,
+      40.312,
+      67.187,
+      94.061,
+      120.936,
+      147.811,
+      174.685,
+      201.56,
+      228.435
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 42,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 5,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 2.73:1; WCAG AA requires 3:1.",
+        "text": "数字为示意",
+        "fg": "rgb(157,130,101)",
+        "bg": "rgb(255,218,170)",
+        "ratio": 2.73,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(149,123,96)",
+        "large": true,
+        "selector": "div > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(9) > div",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1765,
+          "y": 1020.5,
+          "width": 130,
+          "height": 39
+        },
+        "time": 67.187,
+        "times": [
+          67.187
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 1.25:1; WCAG AA requires 3:1.",
+        "text": "🦀",
+        "fg": "rgb(59,42,32)",
+        "bg": "rgb(48,63,70)",
+        "ratio": 1.25,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(143,133,127)",
+        "large": true,
+        "selector": "div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(4) > div",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 200,
+          "y": 511.23052978515625,
+          "width": 260,
+          "height": 260
+        },
+        "time": 120.936,
+        "times": [
+          120.936
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 1.79:1; WCAG AA requires 3:1.",
+        "text": "咔哒！",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(255,179,0)",
+        "ratio": 1.79,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(106,106,106)",
+        "large": true,
+        "selector": "div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(17) > div",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 863.1715087890625,
+          "y": 549.0061645507812,
+          "width": 193.656982421875,
+          "height": 101.9876708984375
+        },
+        "time": 120.936,
+        "times": [
+          120.936
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 1.89:1; WCAG AA requires 3:1.",
+        "text": "💦",
+        "fg": "rgb(59,42,32)",
+        "bg": "rgb(69,90,100)",
+        "ratio": 1.89,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(173,166,161)",
+        "large": true,
+        "selector": "div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(18) > div",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 914.6535034179688,
+          "y": 884.6535034179688,
+          "width": 90.6929931640625,
+          "height": 90.6929931640625
+        },
+        "time": 120.936,
+        "times": [
+          120.936
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "warning",
+        "message": "Contrast is 2.82:1; WCAG AA requires 3:1.",
+        "text": "数字为示意",
+        "fg": "rgb(155,138,132)",
+        "bg": "rgb(251,233,231)",
+        "ratio": 2.82,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(150,133,127)",
+        "large": true,
+        "selector": "div > div:nth-of-type(4) > div > div > div > div > div:nth-of-type(7) > div",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1765,
+          "y": 1020.5,
+          "width": 130,
+          "height": 39
+        },
+        "time": 174.685,
+        "times": [
+          174.685
+        ]
+      }
+    ],
+    "enabled": true,
+    "samples": [
+      13.437,
+      67.187,
+      120.936,
+      174.685,
+      228.435
+    ],
+    "checked": 66,
+    "passed": 61
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 25,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "first_frame_empty",
+        "severity": "warning",
+        "message": "Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and \"数字为示意\" renders at 26 px for 70.66 s: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "数字为示意",
+        "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(9) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s2.html",
+        "bbox": {
+          "x": 1765,
+          "y": 1020.5,
+          "width": 130,
+          "height": 37
+        },
+        "time": 35.938,
+        "times": [
+          35.938
+        ],
+        "fontPx": 26,
+        "floorPx": 28,
+        "seconds": 70.664,
+        "elements": [
+          {
+            "selector": "#s2-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(9) > div:nth-of-type(1)",
+            "text": "数字为示意",
+            "fontPx": 26,
+            "time": 35.938,
+            "seconds": 70.664
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and \"数字为示意\" renders at 26 px for 48.86 s: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "数字为示意",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1765,
+          "y": 1020.5,
+          "width": 130,
+          "height": 37
+        },
+        "time": 152.23,
+        "times": [
+          152.23
+        ],
+        "fontPx": 26,
+        "floorPx": 28,
+        "seconds": 48.859,
+        "elements": [
+          {
+            "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+            "text": "数字为示意",
+            "fontPx": 26,
+            "time": 152.23,
+            "seconds": 48.859
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 172.42,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 171.208,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 171.612,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.42,
+            "opacity": 0.59,
+            "heightPx": 44
+          },
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 172.42,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 171.208,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 171.612,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.42,
+            "opacity": 0.59,
+            "heightPx": 44
+          },
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 172.823,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 171.612,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.42,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.823,
+            "opacity": 0.96,
+            "heightPx": 44
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 172.823,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 171.612,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.42,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.823,
+            "opacity": 0.96,
+            "heightPx": 44
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 173.227,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 172.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.42,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 173.227,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 172.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.42,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 173.631,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 172.42,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 173.631,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 172.42,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 174.035,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 174.035,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 172.823,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 174.439,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 174.439,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 173.227,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 174.842,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 174.842,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 173.631,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 175.246,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.458,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 175.246,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 174.035,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.458,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 175.65,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.458,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.861,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 175.65,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 174.439,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.458,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.861,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 176.054,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 176.458,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.861,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 177.265,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 176.054,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 174.842,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 176.458,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.861,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 177.265,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 110,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 176.458,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.458,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 176.861,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 177.265,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 177.669,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"耗时\" (2 words) is on screen 0.03 s (±0.01 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (1.10 s here) before it leaves or changes; see references/motion.md.",
+        "text": "耗时",
+        "selector": "#s4-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(10) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s4.html",
+        "bbox": {
+          "x": 1070,
+          "y": 400,
+          "width": 60,
+          "height": 44
+        },
+        "time": 176.458,
+        "words": 2,
+        "seconds": 0.025,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 175.246,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 175.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.054,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 176.458,
+            "opacity": 1,
+            "heightPx": 44
+          },
+          {
+            "time": 176.861,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 177.265,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 177.669,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.40399999999999636,
+    "samples": 599
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

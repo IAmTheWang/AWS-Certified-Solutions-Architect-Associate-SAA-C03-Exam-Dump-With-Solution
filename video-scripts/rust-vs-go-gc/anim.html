@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Rust vs Go：GC 人话版（动画）</title>
+<style>
+  html,body{margin:0;background:#111;overflow:hidden}
+  #stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+    font-family:"PingFang SC","Hiragino Sans GB","Apple Color Emoji",sans-serif;color:#3b2a20}
+  .e{position:absolute;left:0;top:0;white-space:nowrap}
+  .emo{line-height:1;font-family:"Apple Color Emoji","PingFang SC",sans-serif}
+  .pill{padding:10px 30px;border-radius:999px;font-weight:800;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+  .code{font-family:Menlo,monospace;font-weight:700}
+  #cap{position:absolute;left:0;right:0;bottom:36px;text-align:center;z-index:99;pointer-events:none}
+  #cap span{display:inline-block;max-width:1560px;white-space:normal;font-size:46px;line-height:1.35;font-weight:800;color:#fff;
+    background:rgba(0,0,0,.62);padding:10px 28px;border-radius:18px}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="build/timing.js"></script>
+<script>
+/* ============ 引擎：确定性关键帧动画，window.setT(t) 渲染任意时刻 ============ */
+const stage = document.getElementById('stage');
+const Q = new URLSearchParams(location.search);
+const CAPTIONS = Q.get('cap') === '1';
+const EASE = {
+  lin: x => x, out: x => 1 - Math.pow(1 - x, 3), in: x => x * x * x,
+  io: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  back: x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+  bounce: x => { const n = 7.5625, d = 2.75; if (x < 1 / d) return n * x * x; if (x < 2 / d) return n * (x -= 1.5 / d) * x + .75;
+    if (x < 2.5 / d) return n * (x -= 2.25 / d) * x + .9375; return n * (x -= 2.625 / d) * x + .984375; }
+};
+let ALL = [];
+class El {
+  constructor(parent, html, css = {}, init = {}) {
+    this.n = document.createElement('div'); this.n.className = 'e'; this.n.innerHTML = html || '';
+    Object.assign(this.n.style, css);
+    this.t = { x: [], y: [], s: [], r: [], o: [] };
+    this.base = Object.assign({ x: 0, y: 0, s: 1, r: 0, o: 1 }, init);
+    this.fx = []; this.cb = [];
+    (parent.n || parent).appendChild(this.n); ALL.push(this);
+  }
+  val(p, t) {
+    const a = this.t[p]; if (!a.length) return this.base[p];
+    if (t <= a[0].t) return a[0].v; const L = a[a.length - 1]; if (t >= L.t) return L.v;
+    for (let i = 1; i < a.length; i++) if (t <= a[i].t) {
+      const A = a[i - 1], B = a[i]; const u = (t - A.t) / ((B.t - A.t) || 1e-6);
+      return A.v + (B.v - A.v) * EASE[B.e || 'io'](u);
+    }
+  }
+  k(p, t, v, e) { const a = this.t[p]; a.push({ t, v, e }); a.sort((x, y) => x.t - y.t); return this; }
+  to(t0, t1, props, e = 'io') { for (const p in props) { this.k(p, t0, this.val(p, t0), 'lin'); this.k(p, t1, props[p], e); } return this; }
+  at(t, props) { for (const p in props) { this.k(p, t - .001, this.val(p, t - .001), 'lin'); this.k(p, t, props[p], 'lin'); } return this; }
+  pop(t, d = .45) { const b = this.base.s;
+    return this.k('o', t, 0, 'lin').k('o', t + .08, 1, 'lin').k('s', t, 0, 'lin').k('s', t + d * .6, 1.18 * b, 'out').k('s', t + d, b, 'io'); }
+  fade(t0, t1, o0, o1) { return this.k('o', t0, o0, 'lin').k('o', t1, o1, 'lin'); }
+  hide(t, d = .25) { return this.k('o', t, this.val('o', t), 'lin').k('o', t + d, 0, 'lin'); }
+  wob(fn) { this.fx.push(fn); return this; }
+  cust(fn) { this.cb.push(fn); return this; }
+  render(t) {
+    let x = this.val('x', t), y = this.val('y', t), s = this.val('s', t), r = this.val('r', t), o = this.val('o', t);
+    for (const f of this.fx) { const d = f(t) || {}; x += d.dx || 0; y += d.dy || 0; r += d.dr || 0; s *= (d.ds == null ? 1 : d.ds); }
+    this.n.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%) rotate(${r}deg) scale(${Math.max(s, 0)})`;
+    this.n.style.opacity = Math.max(0, Math.min(1, o));
+    this.n.style.visibility = o <= 0.001 ? 'hidden' : 'visible';
+    for (const f of this.cb) f(t, this);
+  }
+}
+const kf = pairs => t => { if (t <= pairs[0][0]) return pairs[0][1]; const L = pairs[pairs.length - 1]; if (t >= L[0]) return L[1];
+  for (let i = 1; i < pairs.length; i++) if (t <= pairs[i][0]) { const [a, va] = pairs[i - 1], [b, vb] = pairs[i]; const u = (t - a) / (b - a || 1e-6); return va + (vb - va) * (u * u * (3 - 2 * u)); } };
+
+/* ---- 常用元件 ---- */
+const mk = (p, html, x, y, css = {}, init = {}) => new El(p, html, css, Object.assign({ x, y }, init));
+const emo = (p, ch, x, y, size, init = {}, css = {}) => mk(p, ch, x, y, Object.assign({ fontSize: size + 'px' }, css), init).cust((t, e) => { e.n.classList.add('emo'); });
+const txt = (p, s, x, y, size, color = '#3b2a20', css = {}, init = {}) => mk(p, s, x, y, Object.assign({ fontSize: size + 'px', fontWeight: 800, color }, css), init);
+const pill = (p, s, x, y, bg, size = 40, init = {}) => { const e = mk(p, s, x, y, { fontSize: size + 'px', background: bg }, init); e.n.classList.add('pill'); return e; };
+const grp = (p, init = {}) => mk(p, '', 960, 540, { width: '1920px', height: '1080px', pointerEvents: 'none' }, init);
+const box = (p, x, y, w, h, bg, rad = 24, css = {}) => mk(p, '', x, y, Object.assign({ width: w + 'px', height: h + 'px', background: bg, borderRadius: rad + 'px' }, css));
+const bg = (g, css) => { g.n.style.background = css; };
+const chip = (g, s, color) => { const e = pill(g, s, 0, 0, color, 38); e.base.x = 60 + 10; e.n.style.transformOrigin = '0 50%'; e.base.x = 40; e.base.y = 60; e.n.style.left = '0'; e.n.style.top = '0'; e.n.style.transform = ''; e.render = function (t) { this.n.style.transform = 'translate(40px,36px)'; }; return e; };
+// 水平进度条：容器固定、内部填充（左对齐）
+const bar = (p, x, y, w, h, color, frac, rad = 14, bgc = 'rgba(0,0,0,.12)') => {
+  const e = mk(p, `<div style="width:0;height:100%;background:${color};border-radius:${rad}px"></div>`, x, y,
+    { width: w + 'px', height: h + 'px', background: bgc, borderRadius: rad + 'px', overflow: 'hidden' });
+  e.cust((t, el) => { el.n.firstChild.style.width = (Math.max(0, Math.min(1, frac(t))) * 100) + '%'; });
+  return e;
+};
+const table = (p, dark, light, labelColor = '#fff') => {
+  const g = grp(p);
+  box(g, 960, 790, 1640, 36, light, 18);
+  box(g, 960, 915, 1560, 214, dark, 30);
+  txt(g, '工作台 = 内存', 960, 925, 54, labelColor, { opacity: .9 });
+  return g;
+};
+const hud = (g, memFn, cpuFn, t0, dark = false) => {
+  const h = grp(g); h.fade(t0, t0 + .4, 0, 1);
+  box(h, 310, 200, 540, 150, dark ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.85)', 26, { boxShadow: '0 8px 24px rgba(0,0,0,.15)' });
+  const col = dark ? '#ffe0b2' : '#3b2a20';
+  txt(h, '内存', 130, 170, 34, col); txt(h, 'CPU', 130, 230, 34, col);
+  const mem = bar(h, 330, 170, 280, 36, '#43a047', memFn); const cpu = bar(h, 330, 230, 280, 36, '#1e88e5', cpuFn);
+  mem.cust((t, e) => { const v = memFn(t); e.n.firstChild.style.background = v > .85 ? '#e53935' : v > .6 ? '#fb8c00' : '#43a047'; });
+  const mp = txt(h, '', 515, 170, 30, col).cust((t, e) => { e.n.textContent = Math.round(memFn(t) * 100) + '%'; });
+  const cp = txt(h, '', 515, 230, 30, col).cust((t, e) => { e.n.textContent = Math.round(cpuFn(t) * 100) + '%'; });
+  return h;
+};
+const card = (g, t0, t1, title, color = '#1e88e5') => {
+  const c = grp(g, { x: 1230 }); c.n.style.transformOrigin = '50% 29%'; c.pop(t0, .4); if (t1) c.hide(t1, .25);
+  box(c, 960, 315, 1120, 410, '#fff', 36, { boxShadow: '0 14px 40px rgba(0,0,0,.25)' });
+  box(c, 960, 160, 1120, 90, color, 36);
+  box(c, 960, 190, 1120, 30, color, 0);
+  txt(c, title, 960, 162, 50, '#fff');
+  return c;
+};
+
+/* ============ 时间轴：每个场景由若干"旁白句"驱动 ============ */
+function sceneTiming(si) {
+  const sc = TIMING[si]; let acc = 0; const starts = [], spans = [];
+  sc.beats.forEach(b => { starts.push(acc + b.lead); spans.push(b.dur - b.lead); acc += b.dur; });
+  return { D: sc.dur, A: (i, f = 0) => starts[i] + f * spans[i], starts, spans, beats: sc.beats };
+}
+const scenes = [];
+
+/* ---------- 场景 1：内存 = 工作台 ---------- */
+scenes.push((g, A, D) => {
+  bg(g, 'linear-gradient(#fff3e0,#ffd9a8)');
+  chip(g, '① 内存 = 工作台', '#ef6c00');
+  const all = grp(g);
+  const tb = table(all, '#8d5a2b', '#c98d52'); tb.k('y', 0, 540 + 420, 'lin').k('y', A(0, .5), 540, 'back');
+  const title = txt(all, '电脑内存 = 一张工作台', 960, 330, 104, '#e65100'); title.pop(A(0, .3), .5).hide(A(1, .05), .3);
+  // 食材
+  const items = ['🥬', '🧅', '🥩', '🍳', '🥣', '🔪', '📦'];
+  items.forEach((c, i) => emo(all, c, 380 + i * 190, 715, 130).pop(A(1, .1 + i * .08), .5));
+  pill(all, '变量', 560, 560, '#43a047', 46).pop(A(1, .45), .4).hide(A(2, 0));
+  pill(all, '下载的数据', 1520, 560, '#1e88e5', 46).pop(A(1, .7), .4).hide(A(2, 0));
+  // 垃圾
+  const junk = ['🍂', '🍽️', '🥫', '🍂', '🧅', '🍽️'];
+  let n = 0; const rows = [7, 6, 5, 4];
+  rows.forEach((cnt, r) => { for (let c = 0; c < cnt; c++) {
+    const x = 380 + c * 230 + (r % 2) * 100, ty = 715 - r * 118; const t0 = A(2, .04 + (n++) * .033);
+    const e = emo(all, junk[(c + r) % junk.length], x, ty, r === 0 ? 120 : 110, { r: (c * 37 + r * 53) % 50 - 25 });
+    e.k('o', t0, 0, 'lin').k('o', t0 + .05, 1, 'lin').k('y', t0, -120, 'lin').k('y', t0 + .6, ty, 'bounce');
+    // 旧食材被垃圾盖住
+  } });
+  pill(all, '葱皮、空碗 = 垃圾 Garbage', 960, 215, '#8d6e63', 50).pop(A(2, .05), .4).hide(A(2, .8), .3);
+  // 新菜放不下
+  const dish = emo(all, '🍲', 160, 470, 150); dish.pop(A(2, .5), .4).to(A(2, .58), A(2, .66), { x: 560, y: 560, r: 20 }, 'out').to(A(2, .66), A(2, .76), { x: 160, y: 470, r: -20 }, 'out');
+  pill(all, '没地方放了！', 360, 380, '#e53935', 44).pop(A(2, .62), .3).hide(A(2, .8), .2);
+  const ts = A(2, .8);
+  emo(all, '💥', 430, 300, 190).pop(ts, .4); emo(all, '💥', 1490, 300, 190).pop(ts + .05, .4);
+  const oom = pill(all, 'OOM 内存溢出 · 直接卡死', 960, 300, '#d32f2f', 96, { r: -5 }); oom.pop(ts, .45);
+  all.wob(t => t > ts ? { dx: Math.sin(t * 70) * 14 * Math.exp(-(t - ts) * 2.5), dy: Math.cos(t * 55) * 9 * Math.exp(-(t - ts) * 2.5) } : {});
+  all.hide(A(3, .02), .3);
+  const hd = hud(g, kf([[A(1, 0), .08], [A(1, .9), .3], [A(2, .0), .3], [A(2, .75), 1]]), kf([[0, .1], [D, .1]]), A(1, 0)); hd.hide(A(3, 0), .3);
+  // 收束：GC = ?
+  const fin = grp(g);
+  txt(fin, 'GC 到底是什么？', 960, 330, 120, '#e65100').pop(A(3, .12), .5);
+  emo(fin, '🐹', 560, 640, 250).pop(A(3, .5), .5); txt(fin, 'Go', 560, 810, 80, '#0288d1').pop(A(3, .5), .4);
+  txt(fin, 'VS', 960, 640, 110, '#8d6e63').pop(A(3, .62), .4);
+  emo(fin, '🦀', 1360, 640, 250).pop(A(3, .72), .5); txt(fin, 'Rust', 1360, 810, 80, '#e64a19').pop(A(3, .72), .4);
+});
+
+/* ---------- 场景 2：Go = 厨师 + 保洁阿姨 ---------- */
+scenes.push((g, A, D) => {
+  bg(g, 'linear-gradient(#fff3e0,#ffd9a8)');
+  chip(g, '② Go = 厨师 + 保洁阿姨', '#0288d1');
+  const tb = table(g, '#8d5a2b', '#c98d52'); tb.fade(0, .3, 0, 1);
+  const mem = kf([[0, .2], [A(1, 0), .2], [A(1, .9), .62], [A(2, .38), .64], [A(2, .6), .3], [A(3, 0), .3], [A(3, .8), .8], [A(4, 0), .8], [A(5, 0), .5]]);
+  const cpu = kf([[0, .3], [A(1, .9), .4], [A(2, .3), .62], [A(2, .9), .5], [A(4, 0), .4], [A(4, .75), .7], [A(5, 0), .7]]);
+  hud(g, mem, cpu, A(0, .5));
+  // 厨师 & 阿姨
+  const frozen = t => t > A(5, .32) && t < A(5, .7);
+  const chef = emo(g, '🧑‍🍳', 300, 640, 270, { x: -300 }); chef.to(A(0, 0), A(0, .4), { x: 300 }, 'back');
+  chef.wob(t => t > A(1, 0) && !frozen(t) ? { dy: Math.sin(t * 7) * 9, dr: Math.sin(t * 5) * 4 } : {});
+  const aunt = emo(g, '👵', 1560, 640, 250, { x: 2200 }); aunt.to(A(0, .5), A(0, .9), { x: 1560 }, 'back');
+  const broom = emo(g, '🧹', 1440, 700, 140, { x: 2200 }); broom.to(A(0, .5), A(0, .9), { x: 1440 }, 'back');
+  pill(g, 'Go 程序 · 厨师', 300, 455, '#0288d1', 40).pop(A(0, .45), .4);
+  pill(g, 'GC · 保洁阿姨', 1560, 455, '#2e7d32', 40).pop(A(0, .95), .4);
+  txt(g, '数字为示意', 1830, 1040, 26, 'rgba(59,42,32,.5)');
+  // 阿姨动作
+  const ax = [[A(2, .04), 1560], [A(2, .16), 1330], [A(2, .9), 1330], [A(2, 1), 1560]];
+  aunt.to(A(2, .04), A(2, .16), { x: 1330 }, 'io').to(A(2, .9), A(3, 0), { x: 1560 }, 'io');
+  broom.to(A(2, .04), A(2, .16), { x: 1210 }, 'io').to(A(2, .9), A(3, 0), { x: 1440 }, 'io');
+  aunt.wob(t => t > A(2, .16) && t < A(2, .9) ? { dy: Math.sin(t * 8) * 7 } : (t > A(4, 0) && t < A(5, .3) ? { dy: Math.sin(t * 14) * 10, dr: Math.sin(t * 9) * 6 } : {}));
+  // 食材
+  const peels = [900, 1020, 1140, 1260, 1380];
+  const pan = emo(g, '🍳', 480, 715, 120); pan.pop(A(1, 0), .4).to(A(1, .72), A(1, .86), { x: 620 }, 'out');
+  const beef = emo(g, '🥩', 770, 715, 120); beef.pop(A(1, 0), .4);
+  peels.forEach((x, i) => {
+    const e = emo(g, '🍂', 400, 620, 105); const t0 = A(1, .08 + i * .14);
+    e.k('o', t0, 0, 'lin').k('o', t0 + .02, 1, 'lin').k('x', t0, 400, 'lin').k('x', t0 + .55, x, 'out')
+      .k('y', t0, 620, 'lin').k('y', t0 + .25, 400, 'out').k('y', t0 + .55, 715, 'in').k('r', t0, 0, 'lin').k('r', t0 + .55, 300 + i * 40, 'out');
+    // 阿姨把它们扔进垃圾桶
+    const t1 = A(2, .36 + i * .04);
+    e.k('x', t1, x, 'lin').k('x', t1 + .5, 1790, 'in').k('y', t1, 715, 'lin').k('y', t1 + .22, 450, 'out').k('y', t1 + .5, 715, 'in')
+      .k('s', t1 + .4, 1, 'lin').k('s', t1 + .52, 0, 'in');
+  });
+  pill(g, '随手一扔', 1000, 520, '#8d6e63', 42).pop(A(1, .14), .35).hide(A(1, .5), .25);
+  pill(g, '锅往旁边一推', 560, 560, '#8d6e63', 42).pop(A(1, .66), .35).hide(A(1, .95), .25);
+  emo(g, '🗑️', 1790, 715, 130).pop(A(1, .5), .4);
+  // 连着炒锅的虚线
+  const line = box(g, 695, 722, 150, 0, 'transparent', 0, { borderTop: '8px dashed #2e7d32' }); line.pop(A(2, .72), .3);
+  // 放大镜 + 对话气泡
+  const mg = emo(g, '🔍', 1380, 600, 110); mg.pop(A(2, .12), .3).to(A(2, .16), A(2, .34), { x: 900 }, 'io').to(A(2, .5), A(2, .62), { x: 770 }, 'io').hide(A(2, .95), .3);
+  pill(g, '这个萝卜皮还要吗？', 1000, 400, '#2e7d32', 46).pop(A(2, .12), .35).hide(A(2, .3), .15);
+  pill(g, '不要了，扔掉 🗑️', 1000, 400, '#e53935', 46).pop(A(2, .31), .35).hide(A(2, .58), .2);
+  pill(g, '这盘牛肉还连着炒锅吗？', 1000, 400, '#2e7d32', 46).pop(A(2, .6), .35).hide(A(2, .8), .15);
+  pill(g, '还在用，留着 ✅', 1000, 400, '#2e7d32', 46).pop(A(2, .82), .35).hide(A(3, 0), .3);
+  // 代价 ①
+  const c1 = card(g, A(3, .16), A(4, .03), '代价① 多占好几倍的地方', '#0288d1');
+  txt(c1, '实际用量', 560, 262, 38, '#3b2a20'); txt(c1, 'Go 申请的内存', 540, 352, 38, '#0288d1');
+  box(c1, 960, 307, 0, 0, 'transparent', 0); // spacer
+  const band = box(c1, 840 + 0, 352, 240, 70, 'rgba(229,57,53,.15)', 10, { border: '3px dashed #e53935' }); band.n.style.left = '0';
+  band.base.x = 720 + 240 + 120; band.base.y = 352;
+  bar(c1, 720 + 350, 262, 700, 56, '#43a047', t => 160 / 700, 14, 'transparent').base.x = 720 + 350;
+  bar(c1, 720 + 350, 352, 700, 56, '#0288d1', kf([[A(3, .3), 160 / 700], [A(3, .6), 400 / 700]]), 14, 'transparent').base.x = 720 + 350;
+  txt(c1, '1×', 760 + 160 + 60, 262, 38, '#2e7d32');
+  txt(c1, '1.5 ~ 3 倍', 1330, 307, 56, '#d32f2f').pop(A(3, .62), .4);
+  txt(c1, '台子越小，阿姨越来不及收 → 多留缓冲', 960, 445, 38, '#6d4c41').pop(A(3, .78), .4);
+  // 代价 ②
+  const c2 = card(g, A(4, .06), A(5, .03), '代价② 偷偷消耗体力（CPU）', '#2e7d32');
+  const sx = 960 - 450;
+  const seg1 = box(c2, sx + 180, 300, 360, 90, '#1e88e5', 14); seg1.pop(A(4, .25), .4);
+  txt(seg1, '', 0, 0, 0); seg1.n.innerHTML = '<div style="color:#fff;font-size:40px;font-weight:800;line-height:90px;text-align:center">厨师炒菜 40%</div>';
+  const seg2 = box(c2, sx + 360 + 135, 300, 270, 90, '#43a047', 14); seg2.pop(A(4, .45), .4);
+  seg2.n.innerHTML = '<div style="color:#fff;font-size:40px;font-weight:800;line-height:90px;text-align:center">GC 20~30%</div>';
+  box(c2, sx + 630 + 135, 300, 270, 90, '#cfd8dc', 14).pop(A(4, .25), .4);
+  txt(c2, '同样一份电，白白少了一块', 960, 440, 46, '#6d4c41').pop(A(4, .7), .4);
+  // 代价 ③
+  const c3 = card(g, A(5, .06), null, '代价③ 偶尔的暂停打扰', '#e65100');
+  const W3 = 800, X3 = 560, spikes = [.2, .45, .72];
+  const ch = mk(c3, '', 960, 265, { width: W3 + 'px', height: '120px' });
+  ch.cust((t, e) => {
+    const prog = Math.max(0, Math.min(1, (t - A(5, .1)) / (A(5, .45) - A(5, .1)))); let pts = '';
+    for (let i = 0; i <= 160; i++) { const u = i / 160; if (u > prog) break; let y = 95 + Math.sin(u * 40) * 3;
+      spikes.forEach(s => { const d = Math.abs(u - s); if (d < .03) y -= 85 * (1 - d / .03); }); pts += `${u * W3},${y} `; }
+    e.n.innerHTML = `<svg width="${W3}" height="120"><polyline points="${pts}" fill="none" stroke="#e65100" stroke-width="6" stroke-linejoin="round"/></svg>`;
+  });
+  pill(c3, '🧹 先别动，停半毫秒！', 960, 338, '#e53935', 36).pop(A(5, .36), .35).hide(A(5, .56), .2);
+  [['🏎️', '高频交易', 620], ['🎮', '游戏物理引擎', 960], ['⏱️', '微秒级工具', 1300]].forEach(([em, lb, x], i) => {
+    emo(c3, em, x, 395, 96).pop(A(5, .58 + i * .08), .4); txt(c3, lb, x, 470, 34, '#3b2a20').pop(A(5, .6 + i * .08), .4); });
+  pill(c3, '= 事故 ⚠️', 1470, 420, '#d32f2f', 44, { r: -5 }).pop(A(5, .88), .4);
+  // 阿姨拍肩
+  aunt.to(A(5, .26), A(5, .4), { x: 560 }, 'io'); broom.to(A(5, .26), A(5, .4), { x: 700 }, 'io');
+  emo(g, '✋', 430, 540, 110).pop(A(5, .4), .3).hide(A(5, .68), .2);
+  pill(g, '⏸ 厨师被迫停下', 300, 790, '#e53935', 38).pop(A(5, .42), .3).hide(A(5, .7), .2);
+});
+
+/* ---------- 场景 3：Rust = 机关弹簧 + 魔鬼教官 ---------- */
+scenes.push((g, A, D) => {
+  bg(g, 'linear-gradient(#263238,#37474f)');
+  chip(g, '③ Rust = 机关弹簧 + 魔鬼教官', '#e64a19');
+  const tb = table(g, '#455a64', '#78909c'); tb.fade(0, .3, 0, 1);
+  hud(g, kf([[0, .08], [D, .08]]), kf([[0, .1], [D, .1]]), A(0, .5), true);
+  const crab = emo(g, '🦀', 330, 640, 260, { x: -300 }); crab.to(A(0, 0), A(0, .3), { x: 330 }, 'back');
+  crab.wob(t => ({ dy: Math.sin(t * 4) * 5 }));
+  pill(g, 'Rust 程序', 330, 470, '#e64a19', 40).pop(A(0, .3), .4);
+  // 阿姨被请出去
+  const aunt = emo(g, '👵', 2100, 640, 230); aunt.to(A(0, .12), A(0, .34), { x: 1300 }, 'out').to(A(0, .5), A(0, .72), { x: 2200 }, 'in');
+  emo(g, '🧹', 1180, 700, 130, { x: 2100 }).to(A(0, .12), A(0, .34), { x: 1180 }, 'out').to(A(0, .5), A(0, .72), { x: 2200 }, 'in');
+  emo(g, '🚫', 1300, 620, 260).pop(A(0, .4), .35).hide(A(0, .66), .2);
+  txt(g, '垃圾，根本就不应该落地', 1080, 300, 96, '#ffcc80').pop(A(0, .72), .5).hide(A(1, .0), .3);
+  // 机关弹簧 & 作用域
+  const code = grp(g); code.pop(A(1, .02), .4);
+  box(code, 1450, 300, 700, 270, '#1b262c', 26, { boxShadow: '0 10px 30px rgba(0,0,0,.4)' });
+  const mkLine = (s, y) => txt(code, s, 1450, y, 36, '#eceff1', { fontFamily: 'Menlo,monospace', fontWeight: 700, textAlign: 'left', padding: '4px 14px', borderRadius: '10px', width: '650px', whiteSpace: 'pre' });
+  mkLine('{   // 进入作用域', 215); mkLine('  let pan = 锅;  // 拿起', 285);
+  const endLine = mkLine('}   // 离开 → 自动 drop(pan)', 355);
+  const xs = [640, 960, 1280], its = ['🍳', '🥣', '🔪'], hits = [];
+  xs.forEach((x, i) => {
+    const t = A(1, .22 + i * .24); hits.push(t);
+    const flap = box(g, x, 797, 210, 20, '#1b262c', 6); flap.k('o', 0, 0, 'lin').k('o', A(1, .02), 1, 'lin').k('o', A(2, .0), 1, 'lin').k('o', A(2, .3), 0, 'lin');
+    flap.k('x', 0, x, 'lin').k('s', 0, 1, 'lin').to(t, t + .1, { s: .12 }, 'out').to(t + .55, t + .7, { s: 1 }, 'io');
+    flap.n.style.border = '3px solid #ffb300';
+    const it = emo(g, its[i], x, 715, 125); it.pop(t - .3, .4).to(t + .05, t + .5, { y: 930, s: .3, o: 0 }, 'in');
+    pill(g, '咔哒！', x, 600, '#ffb300', 42, { r: -6 }).pop(t, .3).hide(t + .5, .2);
+    emo(g, '💦', x, 930, 90).pop(t + .42, .3).hide(t + .7, .2);
+  });
+  pill(g, '机关暗门 → 洗碗槽', 960, 520, '#ffb300', 38).pop(A(1, .12), .35).hide(A(1, .95), .25).n.style.color = '#263238';
+  endLine.cust((t, e) => { const on = hits.some(h => t >= h && t < h + .7); e.n.style.background = on ? '#ffb300' : 'transparent'; e.n.style.color = on ? '#263238' : '#eceff1'; });
+  code.hide(A(2, .0), .3);
+  // 魔鬼教官
+  const teacher = emo(g, '👹', 1720, 640, 240, { x: 2200 }); teacher.to(A(2, .05), A(2, .4), { x: 1720 }, 'back');
+  teacher.wob(t => t > A(2, .4) ? { dy: Math.sin(t * 6) * 7, dr: Math.sin(t * 4) * 3 } : {});
+    pill(g, 'Rust 编译器 · 魔鬼教官', 1650, 455, '#c62828', 40).pop(A(2, .4), .4);
+  pill(g, '蓝图我先审一遍……', 1050, 380, '#37474f', 46).pop(A(2, .55), .4).hide(A(3, .0), .25);
+  emo(g, '😰', 330, 520, 80).pop(A(2, .7), .3);
+  // 借用规则
+  const cook = emo(g, '🧑‍🍳', 840, 640, 210); cook.pop(A(3, .04), .4); txt(g, '二厨', 840, 515, 40, '#cfd8dc').pop(A(3, .06), .3);
+  const knife = emo(g, '🔪', 450, 705, 110); knife.pop(A(3, .06), .3).to(A(3, .1), A(3, .2), { x: 740 }, 'io');
+  pill(g, '第12行：菜刀借给了二厨', 1000, 330, '#455a64', 42).pop(A(3, .1), .35).hide(A(3, .4), .2);
+  pill(g, '第15行：怎么又拿它切肉？', 1000, 410, '#ef6c00', 42).pop(A(3, .2), .35).hide(A(3, .4), .2);
+  pill(g, '✋ 借用检查：不行', 1000, 490, '#d32f2f', 46, { r: -3 }).pop(A(3, .31), .35).hide(A(3, .45), .2);
+  const salad = emo(g, '🥗', 1100, 715, 110); salad.pop(A(3, .42), .3).to(A(3, .47), A(3, .55), { x: 1400 }, 'io');
+  emo(g, '🙋', 1480, 620, 190).pop(A(3, .46), .35); emo(g, '🥜', 1290, 715, 80).pop(A(3, .55), .3);
+  pill(g, '沙拉已端给客人，还想抓花生米？', 960, 330, '#455a64', 42).pop(A(3, .46), .35).hide(A(3, .68), .2);
+  pill(g, '🚫 不行，回去重写', 960, 410, '#d32f2f', 46, { r: -3 }).pop(A(3, .58), .35).hide(A(3, .68), .2);
+  pill(g, '谁拿 · 用多久 · 何时归还', 960, 250, '#00897b', 56).pop(A(3, .7), .4);
+  pill(g, '规划严丝合缝 → 编译通过 ✅ 才准点火 🔥', 960, 350, '#2e7d32', 56).pop(A(3, .84), .4);
+});
+
+/* ---------- 场景 4：跑起来的差异 ---------- */
+scenes.push((g, A, D) => {
+  bg(g, '#fffdf7');
+  box(g, 480, 540, 960, 1080, '#e1f5fe', 0); box(g, 1440, 540, 960, 1080, '#fbe9e7', 0); box(g, 960, 540, 6, 1080, '#b0bec5', 0);
+  chip(g, '④ 跑起来的差异', '#6a1b9a');
+  txt(g, '🐹 Go', 480, 150, 84, '#0277bd'); txt(g, '🦀 Rust', 1440, 150, 84, '#d84315');
+  txt(g, '数字为示意', 1830, 1040, 26, 'rgba(59,42,32,.5)');
+  const slide = (i, title) => { const s = grp(g); s.fade(A(i, 0), A(i, .1), 0, 1); if (i < 3) s.hide(A(i + 1, 0) - .05, .2);
+    pill(s, title, 960, 255, '#6a1b9a', 50).pop(A(i, .02), .4); return s; };
+  // ① 零冗余
+  let s = slide(0, '① 零冗余');
+  const blk = (x, y, w, label, color, t, tc = '#fff') => { const b = box(s, x, y, w, 92, color, 18); b.n.innerHTML = `<div style="color:${tc};font-size:42px;font-weight:800;line-height:92px;text-align:center">${label}</div>`;
+    b.k('y', t, y - 400, 'lin').k('y', t + .5, y, 'bounce').k('o', t, 0, 'lin').k('o', t + .05, 1, 'lin'); return b; };
+  blk(480, 900, 600, '硬件', '#78909c', A(0, .12)); blk(480, 800, 600, '操作系统', '#546e7a', A(0, .2));
+  const gcb = blk(480, 700, 600, 'GC 运行时系统 🧹', '#2e7d32', A(0, .3)); blk(480, 600, 600, '你的代码', '#0288d1', A(0, .42));
+  gcb.wob(t => t > A(0, .6) ? { ds: 1 + Math.sin(t * 6) * .03 } : {});
+  pill(s, '多出来的一整套', 480, 470, '#e53935', 38).pop(A(0, .6), .4);
+  blk(1440, 900, 600, '硬件', '#78909c', A(0, .16)); blk(1440, 800, 600, '操作系统', '#546e7a', A(0, .24));
+  blk(1440, 700, 600, '你的代码（裸跑）', '#e64a19', A(0, .46));
+  pill(s, '直接跑在硬件上', 1440, 570, '#2e7d32', 38).pop(A(0, .7), .4);
+  // ② 内存
+  s = slide(1, '② 内存压榨');
+  const W = 760, unit = W / 1000;
+  const goBar = mk(s, `<div style="width:0;height:100%;display:flex"><div style="width:${30 * unit}px;background:#43a047"></div><div style="flex:1;background:repeating-linear-gradient(45deg,#4fc3f7,#4fc3f7 14px,#81d4fa 14px,#81d4fa 28px)"></div></div>`, 480, 560, { width: W + 'px', height: '130px', background: 'rgba(0,0,0,.08)', borderRadius: '16px', overflow: 'hidden' });
+  goBar.cust((t, e) => { e.n.firstChild.style.width = (100 * Math.max(0, Math.min(1, (t - A(1, .1)) / (A(1, .45) - A(1, .1))))) + '%'; });
+  txt(s, '≈ 1 GB', 480, 700, 110, '#0277bd').pop(A(1, .5), .4);
+  txt(s, '绿色 = 真正要用的，蓝色 = GC 周转缓冲', 480, 805, 34, '#37474f').pop(A(1, .55), .4);
+  const rBar = mk(s, `<div style="width:0;height:100%;background:#e64a19"></div>`, 1440, 560, { width: W + 'px', height: '130px', background: 'rgba(0,0,0,.08)', borderRadius: '16px', overflow: 'hidden' });
+  rBar.cust((t, e) => { e.n.firstChild.style.width = (3 * Math.max(0, Math.min(1, (t - A(1, .45)) / (A(1, .7) - A(1, .45))))) + '%'; });
+  txt(s, '≈ 30 MB', 1440, 700, 110, '#d84315').pop(A(1, .72), .4);
+  txt(s, '算出要 30，就只占 30', 1440, 805, 40, '#37474f').pop(A(1, .8), .4);
+  // ③ 稳定
+  s = slide(2, '③ 绝对稳定');
+  const chart = (x, spiky, tA, tB) => { const w = 780, h = 330; const e = mk(s, '', x, 560, { width: w + 'px', height: h + 'px', background: '#fff', borderRadius: '20px', boxShadow: '0 6px 20px rgba(0,0,0,.15)' });
+    e.cust((t, el) => { const prog = Math.max(0, Math.min(1, (t - tA) / (tB - tA))); let pts = '';
+      for (let i = 0; i <= 200; i++) { const u = i / 200; if (u > prog) break; let y = 240 + Math.sin(u * 50) * 3 * (spiky ? 1 : .3);
+        if (spiky) [.18, .4, .63, .85].forEach(sp => { const d = Math.abs(u - sp); if (d < .025) y -= 200 * (1 - d / .025); }); pts += `${30 + u * (w - 60)},${y} `; }
+      el.n.innerHTML = `<svg width="${w}" height="${h}"><text x="20" y="40" font-size="30" font-weight="800" fill="#78909c">耗时</text><polyline points="${pts}" fill="none" stroke="${spiky ? '#e65100' : '#2e7d32'}" stroke-width="7" stroke-linejoin="round"/></svg>`; });
+    return e; };
+  chart(480, true, A(2, .12), A(2, .55)); chart(1440, false, A(2, .12), A(2, .55));
+  txt(s, '🧹 阿姨突然叫停 → 毛刺', 480, 770, 46, '#e65100').pop(A(2, .6), .4);
+  txt(s, '一条平滑的直线 ✓', 1440, 770, 46, '#2e7d32').pop(A(2, .68), .4);
+  txt(s, '何时清理，编译时就刻死了', 1440, 850, 38, '#37474f').pop(A(2, .78), .4);
+  // ④ 直接操控硬件
+  s = slide(3, '④ 直接操控硬件');
+  [0, 1, 2].forEach(i => box(s, 480, 520, 360 + i * 70, 300 + i * 28, 'rgba(120,144,160,' + (.28 - i * .07) + ')', 40, { border: '3px solid rgba(96,125,139,.6)' }).pop(A(3, .08 + i * .06), .4));
+  emo(s, '⚙️', 480, 520, 190).pop(A(3, .08), .4); txt(s, '层层抽象封装', 480, 740, 44, '#455a64').pop(A(3, .2), .4);
+  const g1 = emo(s, '⚙️', 1380, 520, 220).pop(A(3, .1), .4); g1.wob(t => ({ dr: t * 40 }));
+  const g2 = emo(s, '⚙️', 1530, 600, 140).pop(A(3, .14), .4); g2.wob(t => ({ dr: -t * 60 }));
+  pill(s, '内存对齐', 1300, 740, '#e64a19', 40).pop(A(3, .28), .4); pill(s, 'SIMD 向量指令', 1560, 740, '#e64a19', 40).pop(A(3, .34), .4);
+  [['🐧 Linux 内核模块', 480], ['🌐 浏览器内核', 960], ['📈 高频量化引擎', 1440]].forEach(([l, x], i) => pill(s, l, x, 850, '#546e7a', 40).pop(A(3, .5 + i * .07), .4));
+  txt(s, 'C · C++ · Rust ✅', 800, 965, 70, '#2e7d32').pop(A(3, .76), .4);
+  txt(s, 'Go ✖', 1300, 965, 70, '#c62828').pop(A(3, .84), .4);
+});
+
+/* ---------- 场景 5：那 Go 为什么没被淘汰 ---------- */
+scenes.push((g, A, D) => {
+  bg(g, 'linear-gradient(#e8f5e9,#fff8e1)');
+  chip(g, '⑤ 那 Go 为什么没被淘汰', '#2e7d32');
+  // ① 雇阿姨 vs 厨师省心
+  const s0 = grp(g); s0.hide(A(1, 0), .3);
+  box(s0, 960, 905, 1640, 40, '#c98d52', 18);
+  const chef = emo(s0, '🧑‍🍳', 560, 640, 280).pop(A(0, .04), .5); chef.wob(t => ({ dy: Math.sin(t * 3) * 6 }));
+  emo(s0, '☕', 720, 760, 100).pop(A(0, .2), .4); emo(s0, '😌', 560, 460, 90).pop(A(0, .55), .4);
+  const aunt = emo(s0, '👵', 1360, 640, 260).pop(A(0, .1), .5); aunt.wob(t => ({ dy: Math.sin(t * 8) * 8 }));
+  emo(s0, '🧹', 1210, 740, 130).pop(A(0, .12), .4);
+  pill(s0, '雇阿姨 → 多花点电费 ⚡💰', 1360, 380, '#e65100', 44).pop(A(0, .3), .4);
+  pill(s0, '但厨师省心啊！', 560, 330, '#2e7d32', 56).pop(A(0, .6), .4);
+  // ② 网络几十毫秒 vs GC 零点五毫秒
+  const s1 = grp(g); s1.fade(A(1, 0), A(1, .1), 0, 1); s1.hide(A(2, 0), .3);
+  emo(s1, '📱', 220, 270, 150).pop(A(1, .03), .4); emo(s1, '☁️', 1700, 270, 170).pop(A(1, .05), .4);
+  box(s1, 960, 285, 1300, 0, 'transparent', 0, { borderTop: '8px dashed #90a4ae' });
+  const pk = emo(s1, '📦', 330, 255, 90); pk.pop(A(1, .06), .3).to(A(1, .1), A(1, .3), { x: 1600 }, 'io').to(A(1, .3), A(1, .5), { x: 330 }, 'io');
+  txt(s1, '一次网络请求，来回要几十毫秒', 960, 370, 54, '#37474f').pop(A(1, .12), .4);
+  const U = 1200 / 50;
+  txt(s1, '网络往返 ≈ 50 ms', 560, 500, 44, '#0277bd').pop(A(1, .25), .3);
+  bar(s1, 960, 565, 1200, 60, '#0288d1', kf([[A(1, .27), 0], [A(1, .5), 1]]), 14);
+  txt(s1, 'GC 暂停 ≈ 0.5 ms', 660, 690, 44, '#2e7d32').pop(A(1, .55), .3);
+  bar(s1, 960, 755, 1200, 60, '#2e7d32', kf([[A(1, .57), 0], [A(1, .62), .01]]), 14);
+  const mg = emo(s1, '🔍', 385, 735, 120); mg.pop(A(1, .68), .4);
+  pill(s1, '看得见吗？', 560, 850, '#e53935', 46).pop(A(1, .72), .4);
+  pill(s1, '100 : 1', 1680, 660, '#6a1b9a', 64, { r: -5 }).pop(A(1, .85), .4);
+  // ③ 半天 vs 三天三夜
+  const s2 = grp(g); s2.hide(A(3, 0), .3);
+  const pc = (x, col, t) => { const c = grp(s2); c.pop(t, .45); box(c, x, 560, 780, 700, '#fff', 36, { boxShadow: '0 12px 36px rgba(0,0,0,.2)' }); box(c, x, 270, 780, 100, col, 36); box(c, x, 305, 780, 40, col, 0); return c; };
+  const L = pc(500, '#0288d1', A(2, .02)), R = pc(1420, '#e64a19', A(2, .06));
+  txt(L, '🐹 Go', 500, 272, 64, '#fff'); txt(R, '🦀 Rust', 1420, 272, 64, '#fff');
+  txt(L, '半天上线', 500, 430, 90, '#0277bd').pop(A(2, .15), .4); txt(L, '脑子全用来赶工期', 500, 530, 44, '#37474f').pop(A(2, .2), .4);
+  bar(L, 500, 660, 600, 54, '#43a047', kf([[A(2, .25), 0], [A(2, .45), 1]]), 14);
+  emo(L, '🚀', 500, 790, 140).pop(A(2, .46), .5);
+  txt(R, '三天三夜', 1420, 430, 90, '#d84315').pop(A(2, .3), .4); txt(R, '和魔鬼教官大战编译器', 1420, 530, 44, '#37474f').pop(A(2, .35), .4);
+  bar(R, 1420, 660, 600, 54, '#e64a19', kf([[A(2, .3), 0], [A(2, .95), .2]]), 14);
+  emo(R, '👹', 1230, 790, 120).pop(A(2, .5), .4); emo(R, '😵‍💫', 1420, 790, 120).pop(A(2, .55), .4);
+  const cnt = txt(R, '', 1620, 790, 44, '#c62828').cust((t, e) => { e.n.textContent = '报错 × ' + Math.floor(Math.max(0, t - A(2, .5)) * 3); }); cnt.pop(A(2, .5), .3);
+  // ④ 天平 & 结论
+  const s3 = grp(g); s3.fade(A(3, 0), A(3, .12), 0, 1);
+  box(s3, 960, 570, 40, 300, '#6d4c41', 14); box(s3, 960, 725, 360, 40, '#6d4c41', 14);
+  const beam = grp(s3, { y: 540 + 70 }); // 以(960,610)为中心旋转
+  beam.n.style.width = '0'; beam.n.style.height = '0';
+  const ang = kf([[A(3, 0), -12], [A(3, .25), 8], [A(3, .45), -3], [A(3, .6), 0]]);
+  beam.cust((t, e) => { e.n.style.transform = `translate(960px,420px) rotate(${ang(t)}deg)`; });
+  box(beam, 0, 0, 1000, 22, '#8d6e63', 11);
+  const mkPan = (x, title, sub, col) => { const p = mk(beam, '', x, 150, { width: '440px', height: '210px', background: '#fff', borderRadius: '28px', boxShadow: '0 10px 28px rgba(0,0,0,.2)', border: '6px solid ' + col });
+    p.n.innerHTML = `<div style="text-align:center;font-weight:800"><div style="font-size:60px;color:${col};margin-top:26px">${title}</div><div style="font-size:42px;color:#37474f;margin-top:14px">${sub}</div></div>`;
+    p.wob(t => ({ dr: -ang(t) })); box(beam, x, 60, 6, 90, '#8d6e63', 3); return p; };
+  mkPan(-400, '🐹 Go', '开发效率 · 上线快', '#0288d1'); mkPan(400, '🦀 Rust', '极致性能 · 绝对稳定', '#e64a19');
+  pill(s3, '快和稳，是拿写代码时的痛苦换来的', 960, 880, '#6d4c41', 50).pop(A(3, .35), .4);
+  txt(s3, '选 Go 还是 Rust？看你的场景', 960, 980, 80, '#2e7d32').pop(A(3, .62), .5);
+});
+
+/* ============ 渲染入口 ============ */
+let CUR = { si: 0, tm: null, root: null };
+window.buildScene = si => {
+  stage.innerHTML = ''; ALL = [];
+  const tm = sceneTiming(si);
+  const root = grp(stage); root.n.style.overflow = 'hidden';
+  root.n.style.left = '0'; root.n.style.top = '0';
+  root.render = function (t) { this.n.style.transform = 'translate(0,0)'; this.n.style.opacity = Math.min(1, t / .35) * Math.min(1, (tm.D - t) / .35); };
+  scenes[si](root, tm.A, tm.D);
+  if (CAPTIONS) { const c = document.createElement('div'); c.id = 'cap'; c.innerHTML = '<span></span>'; stage.appendChild(c); CUR.cap = c.firstChild; }
+  CUR = Object.assign(CUR, { si, tm, root });
+  window.setT(0);
+  return { D: tm.D, scenes: TIMING.length };
+};
+window.setT = t => {
+  const tm = CUR.tm; t = Math.max(0, Math.min(tm.D - .001, t));
+  for (const e of ALL) e.render(t);
+  if (CAPTIONS && CUR.cap) { let idx = -1; tm.starts.forEach((s, i) => { if (t >= s - .02) idx = i; });
+    CUR.cap.textContent = idx >= 0 && t < tm.starts[idx] + tm.spans[idx] - .35 ? tm.beats[idx].text : ''; CUR.cap.style.display = CUR.cap.textContent ? 'inline-block' : 'none'; }
+};
+function fit() { const k = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `scale(${k})`; }
+if (!Q.get('render')) { addEventListener('resize', fit); fit(); }
+// 预览：直接在浏览器里打开 anim.html?scene=0 即可循环播放
+if (!Q.get('render')) {
+  const si = +(Q.get('scene') || 0); const info = buildScene(si); const t0 = performance.now();
+  (function loop() { setT(((performance.now() - t0) / 1000) % info.D); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>

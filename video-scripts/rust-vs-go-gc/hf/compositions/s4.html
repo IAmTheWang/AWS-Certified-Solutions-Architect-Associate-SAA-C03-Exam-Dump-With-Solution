@@ -1,0 +1,174 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Noto Sans JP",sans-serif; color: #3b2a20; }
+    #s4-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1920" data-height="1080">
+    <div id="s4-stage"></div>
+  </div>
+  <script>
+  (function () {
+    const SC = { id: "s4", D: 49.208, starts: [0.5,10.004,19.749,30.585], spans: [9.504,9.745,10.836,18.623] };
+    const A = (i, f = 0) => SC.starts[i] + f * SC.spans[i], D = SC.D;
+/* 引擎：沿用原来的"关键帧轨道"写法，但最终全部编译成 GSAP 时间线（可 seek、可渲染） */
+const GE = { lin: 'none', out: 'power3.out', in: 'power3.in', io: 'power3.inOut', back: 'back.out(1.7)', bounce: 'bounce.out' };
+const ALL = [];
+const tl = gsap.timeline({ paused: true });
+const stage = document.getElementById(SC.id + '-stage');
+class El {
+  constructor(parent, html, css = {}, init = {}) {
+    this.o = document.createElement('div'); this.o.style.cssText = 'position:absolute;left:0;top:0';   // GSAP 驱动 x/y/scale/rotation/opacity
+    this.n = document.createElement('div'); this.n.style.whiteSpace = 'nowrap'; this.n.innerHTML = html || '';   // 内容层（fx 偏移、cust 在这里）
+    Object.assign(this.n.style, css); this.o.appendChild(this.n);
+    this.t = { x: [], y: [], s: [], r: [], o: [] };
+    this.base = Object.assign({ x: 0, y: 0, s: 1, r: 0, o: 1 }, init);
+    this.fx = []; this.cb = []; this.center = true;
+    (parent.n || parent).appendChild(this.o); ALL.push(this);
+  }
+  val(p, t) {
+    const a = this.t[p]; if (!a.length) return this.base[p];
+    if (t <= a[0].t) return a[0].v; const L = a[a.length - 1]; if (t >= L.t) return L.v;
+    for (let i = 1; i < a.length; i++) if (t <= a[i].t) {
+      const A_ = a[i - 1], B = a[i]; const u = (t - A_.t) / ((B.t - A_.t) || 1e-6);
+      const ez = { lin: x => x, out: x => 1 - Math.pow(1 - x, 3), in: x => x * x * x, io: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, back: x => 1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2), bounce: x => x };
+      return A_.v + (B.v - A_.v) * ez[B.e || 'io'](u);
+    }
+  }
+  k(p, t, v, e) { const a = this.t[p]; a.push({ t, v, e }); a.sort((x, y) => x.t - y.t); return this; }
+  to(t0, t1, props, e = 'io') { for (const p in props) { this.k(p, t0, this.val(p, t0), 'lin'); this.k(p, t1, props[p], e); } return this; }
+  at(t, props) { for (const p in props) { this.k(p, t - .001, this.val(p, t - .001), 'lin'); this.k(p, t, props[p], 'lin'); } return this; }
+  pop(t, d = .45) { const b = this.base.s;
+    return this.k('o', t, 0, 'lin').k('o', t + .08, 1, 'lin').k('s', t, 0, 'lin').k('s', t + d * .6, 1.18 * b, 'out').k('s', t + d, b, 'io'); }
+  fade(t0, t1, o0, o1) { return this.k('o', t0, o0, 'lin').k('o', t1, o1, 'lin'); }
+  hide(t, d = .25) { return this.k('o', t, this.val('o', t), 'lin').k('o', t + d, 0, 'lin'); }
+  wob(fn) { this.fx.push(fn); return this; }
+  cust(fn) { this.cb.push(fn); return this; }
+  finalize() {
+    const G = { x: 'x', y: 'y', s: 'scale', r: 'rotation', o: 'opacity' };
+    const init = this.center ? { xPercent: -50, yPercent: -50 } : { xPercent: 0, yPercent: 0 };
+    for (const p in G) { const a = this.t[p]; init[G[p]] = a.length ? a[0].v : this.base[p]; }
+    gsap.set(this.o, init);
+    for (const p in G) { const a = this.t[p];
+      for (let i = 1; i < a.length; i++) { const A_ = a[i - 1], B = a[i], dur = B.t - A_.t;
+        if (dur < .003) tl.set(this.o, { [G[p]]: B.v }, B.t);
+        else tl.fromTo(this.o, { [G[p]]: A_.v }, { [G[p]]: B.v, duration: dur, ease: GE[B.e || 'io'], immediateRender: false }, A_.t); } }
+  }
+}
+const kf = pairs => t => { if (t <= pairs[0][0]) return pairs[0][1]; const L = pairs[pairs.length - 1]; if (t >= L[0]) return L[1];
+  for (let i = 1; i < pairs.length; i++) if (t <= pairs[i][0]) { const [a, va] = pairs[i - 1], [b, vb] = pairs[i]; const u = (t - a) / (b - a || 1e-6); return va + (vb - va) * (u * u * (3 - 2 * u)); } };
+
+/* ---- 常用元件 ---- */
+const mk = (p, html, x, y, css = {}, init = {}) => new El(p, html, css, Object.assign({ x, y }, init));
+const emo = (p, ch, x, y, size, init = {}, css = {}) => { const e = mk(p, ch, x, y, Object.assign({ fontSize: size + 'px', lineHeight: '1', fontFamily: '"Apple Color Emoji","Noto Sans JP",sans-serif' }, css), init); e.n.setAttribute('data-layout-ignore', ''); e.o.setAttribute('data-layout-ignore', ''); return e; };
+const txt = (p, s, x, y, size, color = '#3b2a20', css = {}, init = {}) => mk(p, s, x, y, Object.assign({ fontSize: size + 'px', fontWeight: 800, color }, css), init);
+const pill = (p, s, x, y, bg, size = 40, init = {}) => { const e = mk(p, s, x, y, { fontSize: size + 'px', background: bg, padding: '10px 30px', borderRadius: '999px', fontWeight: 800, color: bg === '#ffb300' ? '#263238' : '#fff', boxShadow: '0 6px 0 rgba(0,0,0,.2)' }, init); return e; };
+const grp = (p, init = {}) => mk(p, '', 960, 540, { width: '1920px', height: '1080px', pointerEvents: 'none' }, init);
+const box = (p, x, y, w, h, bg, rad = 24, css = {}) => mk(p, '', x, y, Object.assign({ width: w + 'px', height: h + 'px', background: bg, borderRadius: rad + 'px' }, css));
+const bg = (g, css) => { g.n.style.background = css; };
+const chip = (g, s, color) => { const e = pill(g, s, 40, 36, color, 38); e.center = false; return e; };
+const bar = (p, x, y, w, h, color, frac, rad = 14, bgc = 'rgba(0,0,0,.12)') => {
+  const e = mk(p, `<div style="width:0;height:100%;background:${color};border-radius:${rad}px"></div>`, x, y,
+    { width: w + 'px', height: h + 'px', background: bgc, borderRadius: rad + 'px', overflow: 'hidden' });
+  e.cust((t, el) => { el.n.firstChild.style.width = (Math.max(0, Math.min(1, frac(t))) * 100) + '%'; });
+  return e;
+};
+const table = (p, dark, light, labelColor = '#fff') => {
+  const g = grp(p);
+  box(g, 960, 790, 1640, 36, light, 18);
+  box(g, 960, 915, 1560, 214, dark, 30);
+  txt(g, '工作台 = 内存', 960, 925, 54, labelColor, { opacity: .9 });
+  return g;
+};
+const hud = (g, memFn, cpuFn, t0, dark = false) => {
+  const h = grp(g); h.fade(t0, t0 + .4, 0, 1);
+  box(h, 310, 200, 540, 150, dark ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.85)', 26, { boxShadow: '0 8px 24px rgba(0,0,0,.15)' });
+  const col = dark ? '#ffe0b2' : '#3b2a20';
+  txt(h, '内存', 130, 170, 34, col); txt(h, 'CPU', 130, 230, 34, col);
+  const mem = bar(h, 330, 170, 280, 36, '#43a047', memFn); bar(h, 330, 230, 280, 36, '#1e88e5', cpuFn);
+  mem.cust((t, e) => { const v = memFn(t); e.n.firstChild.style.background = v > .85 ? '#e53935' : v > .6 ? '#fb8c00' : '#43a047'; });
+  txt(h, '', 515, 170, 30, col).cust((t, e) => { e.n.textContent = Math.round(memFn(t) * 100) + '%'; });
+  txt(h, '', 515, 230, 30, col).cust((t, e) => { e.n.textContent = Math.round(cpuFn(t) * 100) + '%'; });
+  return h;
+};
+const card = (g, t0, t1, title, color = '#1e88e5') => {
+  const c = grp(g, { x: 1230 }); gsap.set(c.o, { transformOrigin: '50% 29%' }); c.pop(t0, .4); if (t1) c.hide(t1, .25);
+  box(c, 960, 315, 1120, 410, '#fff', 36, { boxShadow: '0 14px 40px rgba(0,0,0,.25)' });
+  box(c, 960, 160, 1120, 90, color, 36);
+  box(c, 960, 190, 1120, 30, color, 0);
+  txt(c, title, 960, 162, 50, '#fff');
+  return c;
+};
+
+    // ---- 场景：跑起来的差异 ----
+    const rootG = grp(stage);
+    const scene = (g, A, D) => {
+  bg(g, '#fffdf7');
+  box(g, 480, 540, 960, 1080, '#e1f5fe', 0); box(g, 1440, 540, 960, 1080, '#fbe9e7', 0); box(g, 960, 540, 6, 1080, '#b0bec5', 0);
+  chip(g, '④ 跑起来的差异', '#6a1b9a');
+  txt(g, '🐹 Go', 480, 150, 84, '#0277bd'); txt(g, '🦀 Rust', 1440, 150, 84, '#d84315');
+  txt(g, '数字为示意', 1830, 1040, 30, '#7a5c45');
+  const slide = (i, title) => { const s = grp(g); s.fade(A(i, 0), A(i, .1), 0, 1); if (i < 3) s.hide(A(i + 1, 0) - .05, .2);
+    pill(s, title, 960, 255, '#6a1b9a', 50).pop(A(i, .02), .4); return s; };
+  // ① 零冗余
+  let s = slide(0, '① 零冗余');
+  const blk = (x, y, w, label, color, t, tc = '#fff') => { const b = box(s, x, y, w, 92, color, 18); b.n.innerHTML = `<div style="color:${tc};font-size:42px;font-weight:800;line-height:92px;text-align:center">${label}</div>`;
+    b.k('y', t, y - 400, 'lin').k('y', t + .5, y, 'bounce').k('o', t, 0, 'lin').k('o', t + .05, 1, 'lin'); return b; };
+  blk(480, 900, 600, '硬件', '#78909c', A(0, .12)); blk(480, 800, 600, '操作系统', '#546e7a', A(0, .2));
+  const gcb = blk(480, 700, 600, 'GC 运行时系统 🧹', '#2e7d32', A(0, .3)); blk(480, 600, 600, '你的代码', '#0288d1', A(0, .42));
+  gcb.wob(t => t > A(0, .6) ? { ds: 1 + Math.sin(t * 6) * .03 } : {});
+  pill(s, '多出来的一整套', 480, 470, '#e53935', 38).pop(A(0, .6), .4);
+  blk(1440, 900, 600, '硬件', '#78909c', A(0, .16)); blk(1440, 800, 600, '操作系统', '#546e7a', A(0, .24));
+  blk(1440, 700, 600, '你的代码（裸跑）', '#e64a19', A(0, .46));
+  pill(s, '直接跑在硬件上', 1440, 570, '#2e7d32', 38).pop(A(0, .7), .4);
+  // ② 内存
+  s = slide(1, '② 内存压榨');
+  const W = 760, unit = W / 1000;
+  const goBar = mk(s, `<div style="width:0;height:100%;display:flex"><div style="width:${30 * unit}px;background:#43a047"></div><div style="flex:1;background:repeating-linear-gradient(45deg,#4fc3f7,#4fc3f7 14px,#81d4fa 14px,#81d4fa 28px)"></div></div>`, 480, 560, { width: W + 'px', height: '130px', background: 'rgba(0,0,0,.08)', borderRadius: '16px', overflow: 'hidden' });
+  goBar.cust((t, e) => { e.n.firstChild.style.width = (100 * Math.max(0, Math.min(1, (t - A(1, .1)) / (A(1, .45) - A(1, .1))))) + '%'; });
+  txt(s, '≈ 1 GB', 480, 700, 110, '#0277bd').pop(A(1, .5), .4);
+  txt(s, '绿色 = 真正要用的，蓝色 = GC 周转缓冲', 480, 805, 34, '#37474f').pop(A(1, .55), .4);
+  const rBar = mk(s, `<div style="width:0;height:100%;background:#e64a19"></div>`, 1440, 560, { width: W + 'px', height: '130px', background: 'rgba(0,0,0,.08)', borderRadius: '16px', overflow: 'hidden' });
+  rBar.cust((t, e) => { e.n.firstChild.style.width = (3 * Math.max(0, Math.min(1, (t - A(1, .45)) / (A(1, .7) - A(1, .45))))) + '%'; });
+  txt(s, '≈ 30 MB', 1440, 700, 110, '#d84315').pop(A(1, .72), .4);
+  txt(s, '算出要 30，就只占 30', 1440, 805, 40, '#37474f').pop(A(1, .8), .4);
+  // ③ 稳定
+  s = slide(2, '③ 绝对稳定');
+  const chart = (x, spiky, tA, tB) => { const w = 780, h = 330; const e = mk(s, '', x, 560, { width: w + 'px', height: h + 'px', background: '#fff', borderRadius: '20px', boxShadow: '0 6px 20px rgba(0,0,0,.15)' });
+    e.cust((t, el) => { const prog = Math.max(0, Math.min(1, (t - tA) / (tB - tA))); let pts = '';
+      for (let i = 0; i <= 200; i++) { const u = i / 200; if (u > prog) break; let y = 240 + Math.sin(u * 50) * 3 * (spiky ? 1 : .3);
+        if (spiky) [.18, .4, .63, .85].forEach(sp => { const d = Math.abs(u - sp); if (d < .025) y -= 200 * (1 - d / .025); }); pts += `${30 + u * (w - 60)},${y} `; }
+      el.n.innerHTML = `<svg width="${w}" height="${h}"><polyline points="${pts}" fill="none" stroke="${spiky ? '#e65100' : '#2e7d32'}" stroke-width="7" stroke-linejoin="round"/></svg>`; });
+    return e; };
+  chart(480, true, A(2, .12), A(2, .55)); chart(1440, false, A(2, .12), A(2, .55));
+  txt(s, '🧹 阿姨突然叫停 → 毛刺', 480, 770, 46, '#e65100').pop(A(2, .6), .4);
+  txt(s, '一条平滑的直线 ✓', 1440, 770, 46, '#2e7d32').pop(A(2, .68), .4);
+  txt(s, '何时清理，编译时就刻死了', 1440, 850, 38, '#37474f').pop(A(2, .78), .4);
+  // ④ 直接操控硬件
+  s = slide(3, '④ 直接操控硬件');
+  [0, 1, 2].forEach(i => box(s, 480, 520, 360 + i * 70, 300 + i * 28, 'rgba(120,144,160,' + (.28 - i * .07) + ')', 40, { border: '3px solid rgba(96,125,139,.6)' }).pop(A(3, .08 + i * .06), .4));
+  emo(s, '⚙️', 480, 520, 190).pop(A(3, .08), .4); txt(s, '层层抽象封装', 480, 740, 44, '#455a64').pop(A(3, .2), .4);
+  const g1 = emo(s, '⚙️', 1380, 520, 220).pop(A(3, .1), .4); g1.wob(t => ({ dr: t * 40 }));
+  const g2 = emo(s, '⚙️', 1530, 600, 140).pop(A(3, .14), .4); g2.wob(t => ({ dr: -t * 60 }));
+  pill(s, '内存对齐', 1300, 740, '#e64a19', 40).pop(A(3, .28), .4); pill(s, 'SIMD 向量指令', 1560, 740, '#e64a19', 40).pop(A(3, .34), .4);
+  [['🐧 Linux 内核模块', 480], ['🌐 浏览器内核', 960], ['📈 高频量化引擎', 1440]].forEach(([l, x], i) => pill(s, l, x, 850, '#546e7a', 40).pop(A(3, .5 + i * .07), .4));
+  txt(s, 'C · C++ · Rust ✅', 800, 965, 70, '#2e7d32').pop(A(3, .76), .4);
+  txt(s, 'Go ✖', 1300, 965, 70, '#c62828').pop(A(3, .84), .4);
+};
+    scene(rootG, A, D);
+    ALL.forEach(e => e.finalize());
+    // 整个场景淡入 / 淡出
+    gsap.set(stage, { opacity: 0 });
+    tl.fromTo(stage, { opacity: 0 }, { opacity: 1, duration: .35, ease: 'none', immediateRender: false }, 0);
+    tl.fromTo(stage, { opacity: 1 }, { opacity: 0, duration: .35, ease: 'none', immediateRender: false }, D - .35);
+    // 数值条、计数器、抖动等"随时间变化的函数"：通过 modifiers 在每次 seek 时求值
+    const step = t => { for (const e of ALL) {
+      if (e.fx.length) { let dx = 0, dy = 0, dr = 0, ds = 1; for (const f of e.fx) { const d = f(t) || {}; dx += d.dx || 0; dy += d.dy || 0; dr += d.dr || 0; ds *= (d.ds == null ? 1 : d.ds); }
+        e.n.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + dr + 'deg) scale(' + ds + ')'; }
+      for (const f of e.cb) f(t, e); } };
+    const px = { t: 0 };
+    tl.fromTo(px, { t: 0 }, { t: D, duration: D, ease: 'none', immediateRender: false, modifiers: { t: v => { step(v); return v; } } }, 0);
+    step(0);
+    window.__timelines["s4"] = tl;
+  })();
+  </script>
+</template>

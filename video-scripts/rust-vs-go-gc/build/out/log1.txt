@@ -1,0 +1,9 @@
+scene 1 frame 0/2138
+scene 1 frame 300/2138
+scene 1 frame 600/2138
+scene 1 frame 900/2138
+scene 1 frame 1200/2138
+scene 1 frame 1500/2138
+scene 1 frame 1800/2138
+scene 1 frame 2100/2138
+done out/scene2.mp4 71.3s

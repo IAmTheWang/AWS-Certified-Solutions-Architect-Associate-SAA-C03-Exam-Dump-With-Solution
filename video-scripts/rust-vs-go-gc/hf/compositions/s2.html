@@ -1,0 +1,205 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Noto Sans JP",sans-serif; color: #3b2a20; }
+    #s2-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <div id="s2-stage"></div>
+  </div>
+  <script>
+  (function () {
+    const SC = { id: "s2", D: 71.279, starts: [0.5,5.238,13.499,27.025,41.867,52.726], spans: [4.738,8.261,13.526,14.842,10.859,18.553] };
+    const A = (i, f = 0) => SC.starts[i] + f * SC.spans[i], D = SC.D;
+/* 引擎：沿用原来的"关键帧轨道"写法，但最终全部编译成 GSAP 时间线（可 seek、可渲染） */
+const GE = { lin: 'none', out: 'power3.out', in: 'power3.in', io: 'power3.inOut', back: 'back.out(1.7)', bounce: 'bounce.out' };
+const ALL = [];
+const tl = gsap.timeline({ paused: true });
+const stage = document.getElementById(SC.id + '-stage');
+class El {
+  constructor(parent, html, css = {}, init = {}) {
+    this.o = document.createElement('div'); this.o.style.cssText = 'position:absolute;left:0;top:0';   // GSAP 驱动 x/y/scale/rotation/opacity
+    this.n = document.createElement('div'); this.n.style.whiteSpace = 'nowrap'; this.n.innerHTML = html || '';   // 内容层（fx 偏移、cust 在这里）
+    Object.assign(this.n.style, css); this.o.appendChild(this.n);
+    this.t = { x: [], y: [], s: [], r: [], o: [] };
+    this.base = Object.assign({ x: 0, y: 0, s: 1, r: 0, o: 1 }, init);
+    this.fx = []; this.cb = []; this.center = true;
+    (parent.n || parent).appendChild(this.o); ALL.push(this);
+  }
+  val(p, t) {
+    const a = this.t[p]; if (!a.length) return this.base[p];
+    if (t <= a[0].t) return a[0].v; const L = a[a.length - 1]; if (t >= L.t) return L.v;
+    for (let i = 1; i < a.length; i++) if (t <= a[i].t) {
+      const A_ = a[i - 1], B = a[i]; const u = (t - A_.t) / ((B.t - A_.t) || 1e-6);
+      const ez = { lin: x => x, out: x => 1 - Math.pow(1 - x, 3), in: x => x * x * x, io: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, back: x => 1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2), bounce: x => x };
+      return A_.v + (B.v - A_.v) * ez[B.e || 'io'](u);
+    }
+  }
+  k(p, t, v, e) { const a = this.t[p]; a.push({ t, v, e }); a.sort((x, y) => x.t - y.t); return this; }
+  to(t0, t1, props, e = 'io') { for (const p in props) { this.k(p, t0, this.val(p, t0), 'lin'); this.k(p, t1, props[p], e); } return this; }
+  at(t, props) { for (const p in props) { this.k(p, t - .001, this.val(p, t - .001), 'lin'); this.k(p, t, props[p], 'lin'); } return this; }
+  pop(t, d = .45) { const b = this.base.s;
+    return this.k('o', t, 0, 'lin').k('o', t + .08, 1, 'lin').k('s', t, 0, 'lin').k('s', t + d * .6, 1.18 * b, 'out').k('s', t + d, b, 'io'); }
+  fade(t0, t1, o0, o1) { return this.k('o', t0, o0, 'lin').k('o', t1, o1, 'lin'); }
+  hide(t, d = .25) { return this.k('o', t, this.val('o', t), 'lin').k('o', t + d, 0, 'lin'); }
+  wob(fn) { this.fx.push(fn); return this; }
+  cust(fn) { this.cb.push(fn); return this; }
+  finalize() {
+    const G = { x: 'x', y: 'y', s: 'scale', r: 'rotation', o: 'opacity' };
+    const init = this.center ? { xPercent: -50, yPercent: -50 } : { xPercent: 0, yPercent: 0 };
+    for (const p in G) { const a = this.t[p]; init[G[p]] = a.length ? a[0].v : this.base[p]; }
+    gsap.set(this.o, init);
+    for (const p in G) { const a = this.t[p];
+      for (let i = 1; i < a.length; i++) { const A_ = a[i - 1], B = a[i], dur = B.t - A_.t;
+        if (dur < .003) tl.set(this.o, { [G[p]]: B.v }, B.t);
+        else tl.fromTo(this.o, { [G[p]]: A_.v }, { [G[p]]: B.v, duration: dur, ease: GE[B.e || 'io'], immediateRender: false }, A_.t); } }
+  }
+}
+const kf = pairs => t => { if (t <= pairs[0][0]) return pairs[0][1]; const L = pairs[pairs.length - 1]; if (t >= L[0]) return L[1];
+  for (let i = 1; i < pairs.length; i++) if (t <= pairs[i][0]) { const [a, va] = pairs[i - 1], [b, vb] = pairs[i]; const u = (t - a) / (b - a || 1e-6); return va + (vb - va) * (u * u * (3 - 2 * u)); } };
+
+/* ---- 常用元件 ---- */
+const mk = (p, html, x, y, css = {}, init = {}) => new El(p, html, css, Object.assign({ x, y }, init));
+const emo = (p, ch, x, y, size, init = {}, css = {}) => { const e = mk(p, ch, x, y, Object.assign({ fontSize: size + 'px', lineHeight: '1', fontFamily: '"Apple Color Emoji","Noto Sans JP",sans-serif' }, css), init); e.n.setAttribute('data-layout-ignore', ''); e.o.setAttribute('data-layout-ignore', ''); return e; };
+const txt = (p, s, x, y, size, color = '#3b2a20', css = {}, init = {}) => mk(p, s, x, y, Object.assign({ fontSize: size + 'px', fontWeight: 800, color }, css), init);
+const pill = (p, s, x, y, bg, size = 40, init = {}) => { const e = mk(p, s, x, y, { fontSize: size + 'px', background: bg, padding: '10px 30px', borderRadius: '999px', fontWeight: 800, color: bg === '#ffb300' ? '#263238' : '#fff', boxShadow: '0 6px 0 rgba(0,0,0,.2)' }, init); return e; };
+const grp = (p, init = {}) => mk(p, '', 960, 540, { width: '1920px', height: '1080px', pointerEvents: 'none' }, init);
+const box = (p, x, y, w, h, bg, rad = 24, css = {}) => mk(p, '', x, y, Object.assign({ width: w + 'px', height: h + 'px', background: bg, borderRadius: rad + 'px' }, css));
+const bg = (g, css) => { g.n.style.background = css; };
+const chip = (g, s, color) => { const e = pill(g, s, 40, 36, color, 38); e.center = false; return e; };
+const bar = (p, x, y, w, h, color, frac, rad = 14, bgc = 'rgba(0,0,0,.12)') => {
+  const e = mk(p, `<div style="width:0;height:100%;background:${color};border-radius:${rad}px"></div>`, x, y,
+    { width: w + 'px', height: h + 'px', background: bgc, borderRadius: rad + 'px', overflow: 'hidden' });
+  e.cust((t, el) => { el.n.firstChild.style.width = (Math.max(0, Math.min(1, frac(t))) * 100) + '%'; });
+  return e;
+};
+const table = (p, dark, light, labelColor = '#fff') => {
+  const g = grp(p);
+  box(g, 960, 790, 1640, 36, light, 18);
+  box(g, 960, 915, 1560, 214, dark, 30);
+  txt(g, '工作台 = 内存', 960, 925, 54, labelColor, { opacity: .9 });
+  return g;
+};
+const hud = (g, memFn, cpuFn, t0, dark = false) => {
+  const h = grp(g); h.fade(t0, t0 + .4, 0, 1);
+  box(h, 310, 200, 540, 150, dark ? 'rgba(255,255,255,.14)' : 'rgba(255,255,255,.85)', 26, { boxShadow: '0 8px 24px rgba(0,0,0,.15)' });
+  const col = dark ? '#ffe0b2' : '#3b2a20';
+  txt(h, '内存', 130, 170, 34, col); txt(h, 'CPU', 130, 230, 34, col);
+  const mem = bar(h, 330, 170, 280, 36, '#43a047', memFn); bar(h, 330, 230, 280, 36, '#1e88e5', cpuFn);
+  mem.cust((t, e) => { const v = memFn(t); e.n.firstChild.style.background = v > .85 ? '#e53935' : v > .6 ? '#fb8c00' : '#43a047'; });
+  txt(h, '', 515, 170, 30, col).cust((t, e) => { e.n.textContent = Math.round(memFn(t) * 100) + '%'; });
+  txt(h, '', 515, 230, 30, col).cust((t, e) => { e.n.textContent = Math.round(cpuFn(t) * 100) + '%'; });
+  return h;
+};
+const card = (g, t0, t1, title, color = '#1e88e5') => {
+  const c = grp(g, { x: 1230 }); gsap.set(c.o, { transformOrigin: '50% 29%' }); c.pop(t0, .4); if (t1) c.hide(t1, .25);
+  box(c, 960, 315, 1120, 410, '#fff', 36, { boxShadow: '0 14px 40px rgba(0,0,0,.25)' });
+  box(c, 960, 160, 1120, 90, color, 36);
+  box(c, 960, 190, 1120, 30, color, 0);
+  txt(c, title, 960, 162, 50, '#fff');
+  return c;
+};
+
+    // ---- 场景：Go：厨师 + 保洁阿姨 ----
+    const rootG = grp(stage);
+    const scene = (g, A, D) => {
+  bg(g, 'linear-gradient(#fff3e0,#ffd9a8)');
+  chip(g, '② Go = 厨师 + 保洁阿姨', '#0288d1');
+  const tb = table(g, '#8d5a2b', '#c98d52'); tb.fade(0, .3, 0, 1);
+  const mem = kf([[0, .2], [A(1, 0), .2], [A(1, .9), .62], [A(2, .38), .64], [A(2, .6), .3], [A(3, 0), .3], [A(3, .8), .8], [A(4, 0), .8], [A(5, 0), .5]]);
+  const cpu = kf([[0, .3], [A(1, .9), .4], [A(2, .3), .62], [A(2, .9), .5], [A(4, 0), .4], [A(4, .75), .7], [A(5, 0), .7]]);
+  hud(g, mem, cpu, A(0, .5));
+  // 厨师 & 阿姨
+  const frozen = t => t > A(5, .32) && t < A(5, .7);
+  const chef = emo(g, '🧑‍🍳', 300, 640, 270, { x: -300 }); chef.to(A(0, 0), A(0, .4), { x: 300 }, 'back');
+  chef.wob(t => t > A(1, 0) && !frozen(t) ? { dy: Math.sin(t * 7) * 9, dr: Math.sin(t * 5) * 4 } : {});
+  const aunt = emo(g, '👵', 1560, 640, 250, { x: 2200 }); aunt.to(A(0, .5), A(0, .9), { x: 1560 }, 'back');
+  const broom = emo(g, '🧹', 1440, 700, 140, { x: 2200 }); broom.to(A(0, .5), A(0, .9), { x: 1440 }, 'back');
+  pill(g, 'Go 程序 · 厨师', 300, 455, '#0288d1', 40).pop(A(0, .45), .4);
+  pill(g, 'GC · 保洁阿姨', 1560, 455, '#2e7d32', 40).pop(A(0, .95), .4).hide(A(3, .08), .1);
+  txt(g, '数字为示意', 1830, 1040, 30, '#7a5c45');
+  // 阿姨动作
+  const ax = [[A(2, .04), 1560], [A(2, .16), 1330], [A(2, .9), 1330], [A(2, 1), 1560]];
+  aunt.to(A(2, .04), A(2, .16), { x: 1330 }, 'io').to(A(2, .9), A(3, 0), { x: 1560 }, 'io');
+  broom.to(A(2, .04), A(2, .16), { x: 1210 }, 'io').to(A(2, .9), A(3, 0), { x: 1440 }, 'io');
+  aunt.wob(t => t > A(2, .16) && t < A(2, .9) ? { dy: Math.sin(t * 8) * 7 } : (t > A(4, 0) && t < A(5, .3) ? { dy: Math.sin(t * 14) * 10, dr: Math.sin(t * 9) * 6 } : {}));
+  // 食材
+  const peels = [900, 1020, 1140, 1260, 1380];
+  const pan = emo(g, '🍳', 480, 715, 120); pan.pop(A(1, 0), .4).to(A(1, .72), A(1, .86), { x: 620 }, 'out');
+  const beef = emo(g, '🥩', 770, 715, 120); beef.pop(A(1, 0), .4);
+  peels.forEach((x, i) => {
+    const e = emo(g, '🍂', 400, 620, 105); const t0 = A(1, .08 + i * .14);
+    e.k('o', t0, 0, 'lin').k('o', t0 + .02, 1, 'lin').k('x', t0, 400, 'lin').k('x', t0 + .55, x, 'out')
+      .k('y', t0, 620, 'lin').k('y', t0 + .25, 400, 'out').k('y', t0 + .55, 715, 'in').k('r', t0, 0, 'lin').k('r', t0 + .55, 300 + i * 40, 'out');
+    // 阿姨把它们扔进垃圾桶
+    const t1 = A(2, .36 + i * .04);
+    e.k('x', t1, x, 'lin').k('x', t1 + .5, 1790, 'in').k('y', t1, 715, 'lin').k('y', t1 + .22, 450, 'out').k('y', t1 + .5, 715, 'in')
+      .k('s', t1 + .4, 1, 'lin').k('s', t1 + .52, 0, 'in');
+  });
+  pill(g, '随手一扔', 1000, 520, '#8d6e63', 42).pop(A(1, .14), .35).hide(A(1, .5), .25);
+  pill(g, '锅往旁边一推', 560, 560, '#8d6e63', 42).pop(A(1, .66), .35).hide(A(1, .95), .25);
+  emo(g, '🗑️', 1790, 715, 130).pop(A(1, .5), .4);
+  // 连着炒锅的虚线
+  const line = box(g, 695, 722, 150, 0, 'transparent', 0, { borderTop: '8px dashed #2e7d32' }); line.pop(A(2, .72), .3);
+  // 放大镜 + 对话气泡
+  const mg = emo(g, '🔍', 1380, 600, 110); mg.pop(A(2, .12), .3).to(A(2, .16), A(2, .34), { x: 900 }, 'io').to(A(2, .5), A(2, .62), { x: 770 }, 'io').hide(A(2, .95), .3);
+  pill(g, '这个萝卜皮还要吗？', 1000, 400, '#2e7d32', 46).pop(A(2, .12), .35).hide(A(2, .3), .15);
+  pill(g, '不要了，扔掉 🗑️', 1000, 400, '#e53935', 46).pop(A(2, .31), .35).hide(A(2, .58), .2);
+  pill(g, '这盘牛肉还连着炒锅吗？', 1000, 400, '#2e7d32', 46).pop(A(2, .6), .35).hide(A(2, .8), .15);
+  pill(g, '还在用，留着 ✅', 1000, 400, '#2e7d32', 46).pop(A(2, .82), .35).hide(A(3, 0), .3);
+  // 代价 ①
+  const c1 = card(g, A(3, .16), A(4, .03), '代价① 多占好几倍的地方', '#0288d1');
+  txt(c1, '实际用量', 560, 262, 38, '#3b2a20'); txt(c1, 'Go 申请的内存', 540, 352, 38, '#0288d1');
+  box(c1, 960, 307, 0, 0, 'transparent', 0); // spacer
+  const band = box(c1, 840 + 0, 352, 240, 70, 'rgba(229,57,53,.15)', 10, { border: '3px dashed #e53935' }); band.n.style.left = '0';
+  band.base.x = 720 + 240 + 120; band.base.y = 352;
+  bar(c1, 720 + 350, 262, 700, 56, '#43a047', t => 160 / 700, 14, 'transparent').base.x = 720 + 350;
+  bar(c1, 720 + 350, 352, 700, 56, '#0288d1', kf([[A(3, .3), 160 / 700], [A(3, .6), 400 / 700]]), 14, 'transparent').base.x = 720 + 350;
+  txt(c1, '1×', 760 + 160 + 60, 262, 38, '#2e7d32');
+  txt(c1, '1.5 ~ 3 倍', 1330, 307, 56, '#d32f2f').pop(A(3, .62), .4);
+  txt(c1, '台子越小，阿姨越来不及收 → 多留缓冲', 960, 445, 38, '#6d4c41').pop(A(3, .78), .4);
+  // 代价 ②
+  const c2 = card(g, A(4, .06), A(5, .03), '代价② 偷偷消耗体力（CPU）', '#2e7d32');
+  const sx = 960 - 450;
+  const seg1 = box(c2, sx + 180, 300, 360, 90, '#1e88e5', 14); seg1.pop(A(4, .25), .4);
+  txt(seg1, '', 0, 0, 0); seg1.n.innerHTML = '<div style="color:#fff;font-size:40px;font-weight:800;line-height:90px;text-align:center">厨师炒菜 40%</div>';
+  const seg2 = box(c2, sx + 360 + 135, 300, 270, 90, '#43a047', 14); seg2.pop(A(4, .45), .4);
+  seg2.n.innerHTML = '<div style="color:#fff;font-size:40px;font-weight:800;line-height:90px;text-align:center">GC 20~30%</div>';
+  box(c2, sx + 630 + 135, 300, 270, 90, '#cfd8dc', 14).pop(A(4, .25), .4);
+  txt(c2, '同样一份电，白白少了一块', 960, 440, 46, '#6d4c41').pop(A(4, .7), .4);
+  // 代价 ③
+  const c3 = card(g, A(5, .06), null, '代价③ 偶尔的暂停打扰', '#e65100');
+  const W3 = 800, X3 = 560, spikes = [.2, .45, .72];
+  const ch = mk(c3, '', 960, 265, { width: W3 + 'px', height: '120px' });
+  ch.cust((t, e) => {
+    const prog = Math.max(0, Math.min(1, (t - A(5, .1)) / (A(5, .45) - A(5, .1)))); let pts = '';
+    for (let i = 0; i <= 160; i++) { const u = i / 160; if (u > prog) break; let y = 95 + Math.sin(u * 40) * 3;
+      spikes.forEach(s => { const d = Math.abs(u - s); if (d < .03) y -= 85 * (1 - d / .03); }); pts += `${u * W3},${y} `; }
+    e.n.innerHTML = `<svg width="${W3}" height="120"><polyline points="${pts}" fill="none" stroke="#e65100" stroke-width="6" stroke-linejoin="round"/></svg>`;
+  });
+  pill(c3, '🧹 先别动，停半毫秒！', 960, 338, '#e53935', 36).pop(A(5, .36), .35).hide(A(5, .56), .2);
+  [['🏎️', '高频交易', 620], ['🎮', '游戏物理引擎', 960], ['⏱️', '微秒级工具', 1300]].forEach(([em, lb, x], i) => {
+    emo(c3, em, x, 395, 96).pop(A(5, .58 + i * .08), .4); txt(c3, lb, x, 470, 34, '#3b2a20').pop(A(5, .6 + i * .08), .4); });
+  pill(c3, '= 事故 ⚠️', 1470, 420, '#d32f2f', 44, { r: -5 }).pop(A(5, .88), .4);
+  // 阿姨拍肩
+  aunt.to(A(5, .26), A(5, .4), { x: 560 }, 'io'); broom.to(A(5, .26), A(5, .4), { x: 700 }, 'io');
+  emo(g, '✋', 430, 540, 110).pop(A(5, .4), .3).hide(A(5, .68), .2);
+  pill(g, '⏸ 厨师被迫停下', 300, 790, '#e53935', 38).pop(A(5, .42), .3).hide(A(5, .7), .2);
+};
+    scene(rootG, A, D);
+    ALL.forEach(e => e.finalize());
+    // 整个场景淡入 / 淡出
+    gsap.set(stage, { opacity: 0 });
+    tl.fromTo(stage, { opacity: 0 }, { opacity: 1, duration: .35, ease: 'none', immediateRender: false }, 0);
+    tl.fromTo(stage, { opacity: 1 }, { opacity: 0, duration: .35, ease: 'none', immediateRender: false }, D - .35);
+    // 数值条、计数器、抖动等"随时间变化的函数"：通过 modifiers 在每次 seek 时求值
+    const step = t => { for (const e of ALL) {
+      if (e.fx.length) { let dx = 0, dy = 0, dr = 0, ds = 1; for (const f of e.fx) { const d = f(t) || {}; dx += d.dx || 0; dy += d.dy || 0; dr += d.dr || 0; ds *= (d.ds == null ? 1 : d.ds); }
+        e.n.style.transform = 'translate(' + dx + 'px,' + dy + 'px) rotate(' + dr + 'deg) scale(' + ds + ')'; }
+      for (const f of e.cb) f(t, e); } };
+    const px = { t: 0 };
+    tl.fromTo(px, { t: 0 }, { t: D, duration: D, ease: 'none', immediateRender: false, modifiers: { t: v => { step(v); return v; } } }, 0);
+    step(0);
+    window.__timelines["s2"] = tl;
+  })();
+  </script>
+</template>

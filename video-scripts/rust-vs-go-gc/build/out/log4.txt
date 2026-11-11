@@ -1,0 +1,6 @@
+scene 4 frame 0/1220
+scene 4 frame 300/1220
+scene 4 frame 600/1220
+scene 4 frame 900/1220
+scene 4 frame 1200/1220
+done out/scene5.mp4 40.7s

@@ -1,0 +1,6 @@
+scene 2 frame 0/1358
+scene 2 frame 300/1358
+scene 2 frame 600/1358
+scene 2 frame 900/1358
+scene 2 frame 1200/1358
+done out/scene3.mp4 45.3s
