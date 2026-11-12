@@ -1,0 +1,167 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 6
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": false,
+    "errorCount": 1,
+    "warningCount": 0,
+    "infoCount": 1,
+    "findings": [
+      {
+        "code": "content_overlap",
+        "severity": "error",
+        "time": 112.153,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 560.32,
+          "top": 224,
+          "right": 639.68,
+          "bottom": 276,
+          "width": 79.36,
+          "height": 52
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(9) > div:nth-of-type(1)",
+        "text": "10%",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply. Decoration nobody needs to read can take data-layout-ignore.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 560.32,
+          "y": 224,
+          "width": 79.36,
+          "height": 52
+        },
+        "firstSeen": 112.153,
+        "lastSeen": 113.504,
+        "occurrences": 3,
+        "heldMs": 1350.999999999999,
+        "times": [
+          112.153,
+          112.653,
+          113.504
+        ]
+      },
+      {
+        "code": "text_occluded",
+        "severity": "info",
+        "time": 147.811,
+        "selector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(7) > div:nth-of-type(1)",
+        "message": "Text is hidden beneath an opaque element.",
+        "rect": {
+          "left": 560.32,
+          "top": 224,
+          "right": 639.68,
+          "bottom": 276,
+          "width": 79.36,
+          "height": 52
+        },
+        "containerSelector": "#s3-stage > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(39) > div:nth-of-type(1)",
+        "text": "10%",
+        "fixHint": "Give the text its own zone, raise its stacking order above the covering element, or mark intentional layering with data-layout-allow-occlusion.",
+        "coveredFraction": 0.22,
+        "dataAttributes": {},
+        "sourceFile": "compositions/s3.html",
+        "bbox": {
+          "x": 560.32,
+          "y": 224,
+          "width": 79.36,
+          "height": 52
+        },
+        "firstSeen": 147.811,
+        "lastSeen": 147.811,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          147.811
+        ]
+      }
+    ],
+    "duration": 241.872,
+    "samples": [
+      13.437,
+      40.312,
+      67.187,
+      94.061,
+      120.936,
+      147.811,
+      174.685,
+      201.56,
+      228.435
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 2,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      13.437,
+      67.187,
+      120.936,
+      174.685,
+      228.435
+    ],
+    "checked": 45,
+    "passed": 45
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "step": 0.40399999999999636,
+    "samples": 599
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

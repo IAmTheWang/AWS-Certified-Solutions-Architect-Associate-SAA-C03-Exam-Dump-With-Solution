@@ -1,0 +1,588 @@
+{
+  "version": 1,
+  "historyId": "5536a8b8-770a-41a2-9a05-402624952ed8",
+  "currentRevision": "3fa9ba9d-594a-416f-a50e-ed6aa17f52a7",
+  "pendingChanges": false,
+  "files": {
+    "compositions/s1.html": {
+      "hash": "f774ca50c16e59115826ca82f970e13e8c8a3996eecfa5d61e00d8856e17ed60",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/f7/f774ca50c16e59115826ca82f970e13e8c8a3996eecfa5d61e00d8856e17ed60"
+    },
+    "compositions/s2.html": {
+      "hash": "81af95972eb1ce8a78eb35d8b19aa6a73e93f199730007d26d22c2ca6c1aa1bc",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/81/81af95972eb1ce8a78eb35d8b19aa6a73e93f199730007d26d22c2ca6c1aa1bc"
+    },
+    "compositions/s3.html": {
+      "hash": "d241c7d0d422667c7b1997740b2516278d2ca14d6186230658053a4e018b7236",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/d2/d241c7d0d422667c7b1997740b2516278d2ca14d6186230658053a4e018b7236"
+    },
+    "compositions/s4.html": {
+      "hash": "648e07a1b26697bf81e79fb2b851a9aee058959e0cb4eb9968598cd63e3cb366",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/64/648e07a1b26697bf81e79fb2b851a9aee058959e0cb4eb9968598cd63e3cb366"
+    },
+    "compositions/s5.html": {
+      "hash": "9fc7b168a3ececb9496a2e40d886f8002e1d6b65dd11b7f1dbceebdffdfdd59c",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/9f/9fc7b168a3ececb9496a2e40d886f8002e1d6b65dd11b7f1dbceebdffdfdd59c"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/53/53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "93a237775da040d861abdf82ac4ca18e81fffcc699b68de835e4ade778271490",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/93/93a237775da040d861abdf82ac4ca18e81fffcc699b68de835e4ade778271490"
+    },
+    "meta.json": {
+      "hash": "91c0fd6fec83aabfc0a67c77c5ba54f47a355f2ba8d0bd992e2086badfa53eb8",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/91/91c0fd6fec83aabfc0a67c77c5ba54f47a355f2ba8d0bd992e2086badfa53eb8"
+    },
+    "package.json": {
+      "hash": "57f99121c66279dbae3d3d3a2eea19a74586157ecfad54af04cf07e864b969b5",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/57/57f99121c66279dbae3d3d3a2eea19a74586157ecfad54af04cf07e864b969b5"
+    },
+    "assets/draft-voice.mp3": {
+      "hash": "3e154cede915af52d53ef7028c871574c8fe58d311c6f6cc2848ed7591aed6fb",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/3e/3e154cede915af52d53ef7028c871574c8fe58d311c6f6cc2848ed7591aed6fb"
+    },
+    "out/render.log": {
+      "hash": "7eea9c75329a81bd3c875ddb4753e0edbd8a8e1400a8bf217b0ddf23a084e478",
+      "content": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/7e/7eea9c75329a81bd3c875ddb4753e0edbd8a8e1400a8bf217b0ddf23a084e478"
+    }
+  },
+  "revisions": {
+    "d17b7f9b-f386-4f94-bb41-147830ed91a5": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794468937144,
+      "endedAt": 1794468937226,
+      "files": {
+        "compositions/s1.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/ec/ece2a90b9d2229e7c05b2e84a6db013bfdc90605a7036a9e09c52b5334306831",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/89/89579a2178c0de5c2f88f69833035925faf432fe33dbd2c2cba1e8be253842de"
+        },
+        "compositions/s2.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/be/be46d8173d37ece4a0722c715aaed88f2f3b91bddc59d393d9b52a5ce427c3c5",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/b9/b94342337bfb5e11cd595e46e21ce5cdf09df097fac37de203bf93e12a73c15d"
+        },
+        "compositions/s3.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/53/53b9252fc247766d165d2c8fdc979f3932fe9e1650a19b49097c34ddce4f5412",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/75/75b21182981e2d0e6bc244739f82a8151af1bbbee5a767a3bccd3430a71b7333"
+        },
+        "compositions/s4.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/fa/fa36a66809cb3c935998bf92134ff333cad4dffcd57941fdb937cadf0b0feef6",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/52/5280529ead953bc8085437f6a1303c7bfb63a74b9e66c9e6a6af0460c5b02b88"
+        },
+        "compositions/s5.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/48/4806fe39a74597cc1b51db032d0bb35e2023be75ed4fcf7cf41996549f2abd68",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/45/453093abe2f8c8e4a5e5d84bb40bb815a1e47b5c03037e8d9914abf1425e836a"
+        }
+      }
+    },
+    "44ae8f80-8514-426a-8caf-e90021bb5fd9": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794468950829,
+      "endedAt": 1794468950830,
+      "files": {
+        "out/render.log": {
+          "before": null,
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/c6/c6971a02c0a83b64e14c8cd41770ce9b205784bc46142bc84e10df6848cdf0a3"
+        }
+      }
+    },
+    "b6d1f9fc-eaa6-4c4b-9808-81a0ec31c021": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794468951127,
+      "endedAt": 1794468951128,
+      "files": {
+        "out/render.log": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/c6/c6971a02c0a83b64e14c8cd41770ce9b205784bc46142bc84e10df6848cdf0a3",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/7e/7eea9c75329a81bd3c875ddb4753e0edbd8a8e1400a8bf217b0ddf23a084e478"
+        }
+      }
+    },
+    "3fa9ba9d-594a-416f-a50e-ed6aa17f52a7": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794469500301,
+      "endedAt": 1794469500317,
+      "files": {
+        "compositions/s1.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/89/89579a2178c0de5c2f88f69833035925faf432fe33dbd2c2cba1e8be253842de",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/f7/f774ca50c16e59115826ca82f970e13e8c8a3996eecfa5d61e00d8856e17ed60"
+        },
+        "compositions/s2.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/b9/b94342337bfb5e11cd595e46e21ce5cdf09df097fac37de203bf93e12a73c15d",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/81/81af95972eb1ce8a78eb35d8b19aa6a73e93f199730007d26d22c2ca6c1aa1bc"
+        },
+        "compositions/s3.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/75/75b21182981e2d0e6bc244739f82a8151af1bbbee5a767a3bccd3430a71b7333",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/d2/d241c7d0d422667c7b1997740b2516278d2ca14d6186230658053a4e018b7236"
+        },
+        "compositions/s4.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/52/5280529ead953bc8085437f6a1303c7bfb63a74b9e66c9e6a6af0460c5b02b88",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/64/648e07a1b26697bf81e79fb2b851a9aee058959e0cb4eb9968598cd63e3cb366"
+        },
+        "compositions/s5.html": {
+          "before": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/45/453093abe2f8c8e4a5e5d84bb40bb815a1e47b5c03037e8d9914abf1425e836a",
+          "after": "/Users/welby/.cache/hyperframes/history/5536a8b8-770a-41a2-9a05-402624952ed8/blobs/9f/9fc7b168a3ececb9496a2e40d886f8002e1d6b65dd11b7f1dbceebdffdfdd59c"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "d17b7f9b-f386-4f94-bb41-147830ed91a5",
+      "id": "330015fd-f794-42fd-8af9-d49cae91c028"
+    },
+    "revisions": {
+      "d17b7f9b-f386-4f94-bb41-147830ed91a5": [
+        {
+          "id": "330015fd-f794-42fd-8af9-d49cae91c028",
+          "scope": "project",
+          "report": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/checks/330015fd-f794-42fd-8af9-d49cae91c028.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 45000,
+              "cache": true,
+              "contrast": true,
+              "craft": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto",
+              "includeUnmounted": false
+            }
+          },
+          "createdAt": 1794468943317,
+          "contentHash": "ccd5c130377f074cbfd5648b425ef1098ebae93a2f6f5523c5bf08a2f4ec2aeb",
+          "revision": "d17b7f9b-f386-4f94-bb41-147830ed91a5",
+          "inputFingerprint": "5610dd1500c3f736701b360a114b5a7ab82f1763f6cd9627bf72804bfadbe15f",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "3f2ee2e8-8784-43b5-88e7-abf23f2afe12",
+        "scope": "project",
+        "report": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/checks/3f2ee2e8-8784-43b5-88e7-abf23f2afe12.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1794468882030,
+        "contentHash": "a083f3fd66d52fdc82f1116ae53d4104dab8bd054ec6f53265d504d01e54f1e6",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "id": "0f537f59-9f27-4d4f-a93b-5da58b7376af",
+        "scope": "project",
+        "report": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/checks/0f537f59-9f27-4d4f-a93b-5da58b7376af.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 45000,
+            "cache": true,
+            "contrast": true,
+            "craft": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto",
+            "includeUnmounted": false
+          }
+        },
+        "createdAt": 1794468895154,
+        "contentHash": "a083f3fd66d52fdc82f1116ae53d4104dab8bd054ec6f53265d504d01e54f1e6",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": null,
+      "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-6"
+    },
+    "revisions": {},
+    "unversioned": [
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-0",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-00-at-112.15s.png",
+        "time": 112.15,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "07a6d315e9e93d51174847ae50f16bf34416bfc25d4eaa7684946484ed9e9305",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-1",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-01-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "a2b2a1977a0eb4f3c5086b41aef84e6c5c6d2427f8944387a5e1f8dbf1a511ba",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-2",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-02-at-60s.png",
+        "time": 60,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "9dbb4246f8e56d32bc79f85342e8881cf63c811f3b1322989b7484c0fede842e",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-3",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-03-at-90s.png",
+        "time": 90,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "4ec12935e3c495bc70b10310ef75a1315c7703c0b00637fed339dcc641d3af61",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-4",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-04-at-150s.png",
+        "time": 150,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "8e1a0db53fb2728a32e81902bf825e7ec32f729b622a47f0a960bad8b686b65d",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-5",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-05-at-185s.png",
+        "time": 185,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "23387cc5a1421cf94ce42d7a521ce89157cbb429ed16ee14c83bb56edcf279ee",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-6",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-06-at-215s.png",
+        "time": 215,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "d565b47fe41f0a610c33f06fadbc24b63d7aed8f2d1f9decf7f1e1137f17c516",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-7",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-07-at-232s.png",
+        "time": 232,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "973e3fa9769c46fa53490f283315eb707559305ef30a12d80b175f81564d5ad0",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "b0f02328-4fa5-4006-bebd-f2b31ac56ed7-8",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/81709372-e1b8-47e6-9da7-cad850340d60/frame-08-at-241.622s.png",
+        "time": 241.622,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468910377,
+        "contentHash": "a0940572c87e0d0a3f59dfeed88f4e94a8c6c8fd790432c95c4dce0e0b2030a1",
+        "revision": null,
+        "inputFingerprint": "11dace856b50a4926face4decc06dc3fc6fedba23c23cd75d07752378d4db092",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-0",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-00-at-112.15s.png",
+        "time": 112.15,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "4ecd2cc321346986b9847f917355833a290347ef469c3cd4995df8a338de7601",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-1",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-01-at-150s.png",
+        "time": 150,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "12d21deb27e372cef0d011d370746d414b6ff4b7b78a3de2e5faec3088f92a9c",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-2",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-02-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "fe3a7ad38e4c1321054b82b6126187bc4dcbf22f0847e3368ddbc31f01e406eb",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-3",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-03-at-24s.png",
+        "time": 24,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "a738a5da73ebd81969d2a9325494383ef68b740731704a444e198d33f8e5aa14",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-4",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-04-at-60s.png",
+        "time": 60,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "9200589052b7fb53fb93da0556c907d1bc20efc3920ea2dc677253a8479bd343",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-5",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-05-at-120s.png",
+        "time": 120,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "b7020dd8ba81b87ab45f7284aad4cd30e372e90a7afe17d67f0e03bb81d45323",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      },
+      {
+        "scope": "full",
+        "id": "0aaa4ffd-1876-4f53-bc29-0ec0f21943a8-6",
+        "image": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/.hyperframes/artifacts/snapshots/f0dbbb56-afef-4000-bc74-a99f6ed203a9/frame-06-at-241.622s.png",
+        "time": 241.622,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1794468954887,
+        "contentHash": "a0940572c87e0d0a3f59dfeed88f4e94a8c6c8fd790432c95c4dce0e0b2030a1",
+        "revision": null,
+        "inputFingerprint": "ff43621b46de1663d76fd898af9edbc2d98e92e40d181aab378c6d18ecde089e",
+        "inputScope": "local-project-files",
+        "attribution": "inputs-changed"
+      }
+    ]
+  },
+  "renders": {
+    "latest": {
+      "id": "473d9b88-9767-4298-8609-7dc519fd5901",
+      "completedAt": 1794469658820,
+      "output": "/Users/welby/personal/AWS-Certified-Solutions-Architect-Associate-SAA-C03-Exam-Dump-With-Solution/video-scripts/rust-vs-go-gc/hf-v2/out/rust-vs-go-gc_v2_polished.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}
